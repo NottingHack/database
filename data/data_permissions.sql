@@ -1,7 +1,6 @@
 INSERT INTO `permissions` (`permission_code`, `permission_desc`) VALUES
 ('ADD_GROUP       ', 'Add group'),
 ('ADD_GRP_MEMBER  ', 'Add member to group'),
-('ADD_MEMBER      ', 'Add member'),
 ('ADD_UPD_PRODUCT ', 'Add / update product'),
 ('AMEND_PINS      ', 'Add / Cancel PINs'),
 ('CHG_GRP_PERM    ', 'Change/toggle state of group permissions'),

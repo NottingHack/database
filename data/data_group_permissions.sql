@@ -1,7 +1,6 @@
 INSERT INTO `group_permissions` (`grp_id`, `permission_code`) VALUES
 (1, 'ADD_GROUP       '),
 (1, 'ADD_GRP_MEMBER  '),
-(1, 'ADD_MEMBER      '),
 (1, 'ADD_UPD_PRODUCT '),
 (1, 'AMEND_PINS      '),
 (1, 'CHG_GRP_PERM    '),

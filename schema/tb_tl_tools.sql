@@ -10,6 +10,7 @@ CREATE TABLE IF NOT EXISTS `tl_tools` (
   `tool_length_max` int(10) unsigned DEFAULT NULL COMMENT 'maximum amount of time a booking can be made for, minutes',
   `tool_bookings_max` int(10) unsigned DEFAULT NULL COMMENT 'maximum number of bookings a user can have at any one time',
   `tool_calendar` varchar(255) DEFAULT NULL COMMENT 'id of google calendar',
+  `tool_cal_poll_ival` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`tool_id`),
   UNIQUE KEY `tool_name` (`tool_name`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1;

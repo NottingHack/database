@@ -41,6 +41,9 @@ BEGIN
       leave main;
     end if;
 
+    -- Ensure signed off before signing on again
+    call sp_tool_sign_off(p_tool_name, 0, p_msg);
+
     -- Get details
     select 
       t.tool_id,

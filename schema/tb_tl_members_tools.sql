@@ -7,4 +7,4 @@ CREATE TABLE IF NOT EXISTS `tl_members_tools` (
   `mt_access_level` varchar(20) DEFAULT NULL COMMENT 'USER, INDUCTOR or MAINTAINER',
   PRIMARY KEY (`member_tool_id`),
   UNIQUE KEY `tool_id` (`tool_id`,`member_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB CHARSET=latin1;

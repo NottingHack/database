@@ -6,4 +6,4 @@ CREATE TABLE IF NOT EXISTS `addresses` (
   `comments` varchar(256) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `addr` (`mac_address`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1

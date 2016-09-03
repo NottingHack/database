@@ -7,4 +7,4 @@ CREATE TABLE IF NOT EXISTS `service_status` (
   `restart_time` timestamp NULL DEFAULT NULL,
   `description` varchar(2048) DEFAULT NULL,
   PRIMARY KEY (`service_name`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1

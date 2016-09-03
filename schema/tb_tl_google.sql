@@ -3,4 +3,4 @@ CREATE TABLE IF NOT EXISTS `tl_google` (
   `identity` varchar(255) DEFAULT NULL COMMENT 'google account username',
   `refresh_token` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1;

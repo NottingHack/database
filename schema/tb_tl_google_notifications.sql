@@ -6,4 +6,4 @@ CREATE TABLE IF NOT EXISTS `tl_google_notifications` (
   `channel_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `channel_expiration` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`channel_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;

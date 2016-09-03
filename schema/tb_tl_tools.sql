@@ -13,4 +13,4 @@ CREATE TABLE IF NOT EXISTS `tl_tools` (
   `tool_cal_poll_ival` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`tool_id`),
   UNIQUE KEY `tool_name` (`tool_name`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1;

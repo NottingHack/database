@@ -9,4 +9,4 @@ CREATE TABLE IF NOT EXISTS `access_log` (
   `denied_reason` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`access_id`),
   KEY `member_id` (`member_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1

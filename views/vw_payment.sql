@@ -1,5 +1,3 @@
-DROP VIEW IF EXISTS `vw_payment`;
-
 CREATE VIEW `vw_payment` AS
 SELECT
   u.username AS username,

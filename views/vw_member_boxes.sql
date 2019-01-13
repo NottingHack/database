@@ -1,5 +1,3 @@
-DROP VIEW IF EXISTS `vw_member_boxes`;
-
 CREATE VIEW `vw_member_boxes` AS
 SELECT
    member_boxes.id AS member_box_id,

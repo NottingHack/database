@@ -1,5 +1,3 @@
-DROP VIEW IF EXISTS `vw_low_payers`;
-
 CREATE VIEW `vw_low_payers` AS
 SELECT
   u.id AS user_id,

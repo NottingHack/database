@@ -1,5 +1,3 @@
-DROP VIEW IF EXISTS `vw_tool_users`;
-
 CREATE VIEW `vw_tool_users`AS
 SELECT
   REGEXP_SUBSTR(rt.display_name, '(?<=Tool: ).+(?= )') AS tool,

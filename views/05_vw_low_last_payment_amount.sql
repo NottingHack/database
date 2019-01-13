@@ -1,5 +1,3 @@
-DROP VIEW IF EXISTS  `vw_low_last_payment_amount`;
-
 CREATE VIEW `vw_low_last_payment_amount` AS
 SELECT
   bt.account_id AS account_id,

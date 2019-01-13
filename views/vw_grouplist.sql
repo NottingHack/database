@@ -1,6 +1,4 @@
-DROP VIEW IF EXISTS vw_grouplist;
-
-CREATE VIEW vw_grouplist AS
+CREATE VIEW `vw_grouplist` AS
 SELECT
   -- rowid,
   '10000' AS gid,

@@ -1,5 +1,3 @@
-DROP VIEW IF EXISTS `vw_snackspace_debt`;
-
 CREATE VIEW `vw_snackspace_debt` AS
 SELECT
   -(1) AS user,
@@ -26,7 +24,7 @@ WHERE ((t.transaction_status = 'COMPLETE') AND (r.name in ('member.ex', 'member.
 UNION ALL
 SELECT
   u.id AS user,
-  CONCAT_WS(' ',u.firstname, u.lastname) AS user_name,
+  CONCAT_WS(' ', u.firstname, u.lastname) AS user_name,
   r.display_name AS member_status,
   TRUNCATE( p.balance / 100, 2) AS balance,
   TRUNCATE( ABS( SUM( IF(t.amount < 0, t.amount, 0) ) / 100), 2) AS debit,
@@ -37,5 +35,5 @@ FROM user u
   INNER JOIN role_user ru ON (ru.user_id = u.id)
   INNER JOIN roles r ON (r.id = ru.role_id)
 WHERE (r.name IN ('member.current', 'member.young', 'member.ex', 'member.temporarybanned', 'member.banned'))
-GROUP BY u.id
+GROUP BY u.id, user_name, member_status, balance
 ORDER BY balance;

@@ -1,6 +1,4 @@
-DROP VIEW IF EXISTS vw_users;
-
-CREATE VIEW vw_users AS
+CREATE VIEW `vw_users` AS
 SELECT
   LOWER(u.username) AS username,
   u.id + 10000 AS uid,

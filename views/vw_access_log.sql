@@ -1,5 +1,3 @@
-DROP VIEW IF EXISTS `vw_access_log`;
-
 CREATE VIEW `vw_access_log` AS
 SELECT
   al.access_time AS access_time,

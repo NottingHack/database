@@ -1,11 +1,20 @@
-CREATE TABLE IF NOT EXISTS `doors` (
-  `door_id` int(11) NOT NULL,
-  `door_description` varchar(100) NOT NULL,
-  `door_short_name` varchar(16) NOT NULL,
-  `door_state` varchar(10) NOT NULL,
-  `door_state_change` datetime NOT NULL,
-  `permission_code` varchar(16) DEFAULT NULL,
-  `side_a_zone_id` int(11) DEFAULT NULL,
-  `side_b_zone_id` int(11) DEFAULT NULL,
-  PRIMARY KEY `door_id` (`door_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+DROP TABLE IF EXISTS `doors`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `doors` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `side_a_zone_id` int(10) unsigned DEFAULT NULL,
+  `side_b_zone_id` int(10) unsigned DEFAULT NULL,
+  `description` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `short_name` varchar(16) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `state` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `state_change` datetime NOT NULL,
+  `permission_code` varchar(16) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `IDX_5E5B762A49451B7F` (`side_a_zone_id`),
+  KEY `IDX_5E5B762A70C827BA` (`side_b_zone_id`),
+  CONSTRAINT `FK_5E5B762A49451B7F` FOREIGN KEY (`side_a_zone_id`) REFERENCES `zones` (`id`),
+  CONSTRAINT `FK_5E5B762A70C827BA` FOREIGN KEY (`side_b_zone_id`) REFERENCES `zones` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+

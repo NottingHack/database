@@ -1,9 +1,19 @@
-CREATE TABLE IF NOT EXISTS `bank_transactions` (
- `bank_transaction_id` int(11) NOT NULL AUTO_INCREMENT,
- `transaction_date` date NOT NULL,
- `description` varchar(200) NOT NULL,
- `amount` decimal(8,2) DEFAULT NULL,
- `bank_id` int(11) NOT NULL,
- `account_id` int(11) NULL,
- PRIMARY KEY (`bank_transaction_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1
+DROP TABLE IF EXISTS `bank_transactions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `bank_transactions` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `bank_id` int(10) unsigned DEFAULT NULL,
+  `account_id` int(10) unsigned DEFAULT NULL,
+  `transaction_date` date NOT NULL,
+  `description` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `amount` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `duplicate_idx` (`transaction_date`,`description`,`amount`),
+  KEY `IDX_2A30FD5711C8FB41` (`bank_id`),
+  KEY `IDX_2A30FD579B6B5FBA` (`account_id`),
+  CONSTRAINT `FK_2A30FD5711C8FB41` FOREIGN KEY (`bank_id`) REFERENCES `banks` (`id`),
+  CONSTRAINT `FK_2A30FD579B6B5FBA` FOREIGN KEY (`account_id`) REFERENCES `accounts` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+

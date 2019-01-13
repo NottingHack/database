@@ -11,14 +11,14 @@ CREATE TABLE `user` (
   `deleted_at` datetime DEFAULT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
-  `acccount_id` int(10) unsigned DEFAULT NULL,
+  `account_id` int(10) unsigned DEFAULT NULL,
   `email_verified_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_8D93D649F85E0677` (`username`),
   UNIQUE KEY `UNIQ_8D93D649E7927C74` (`email`),
   KEY `email_index` (`email`),
-  KEY `IDX_8D93D64986C91FE5` (`acccount_id`),
-  CONSTRAINT `FK_8D93D64986C91FE5` FOREIGN KEY (`acccount_id`) REFERENCES `accounts` (`id`)
+  KEY `IDX_8D93D6499B6B5FBA` (`account_id`),
+  CONSTRAINT `FK_8D93D6499B6B5FBA` FOREIGN KEY (`account_id`) REFERENCES `accounts` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

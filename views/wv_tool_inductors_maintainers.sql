@@ -5,8 +5,7 @@ SELECT
   `tl_tools`.`tool_id` AS `tool_id`,
   `tl_tools`.`tool_name` AS `tool_name`,
   `tl_members_tools`.`mt_access_level` AS `access_level`,
-  CONCAT_WS(' ', `members`.`firstname`,
-  `members`.`surname`) AS `member_name`,
+  CONCAT_WS(' ', `members`.`firstname`, `members`.`surname`) AS `member_name`,
   `status`.`title` AS `member_status`
 FROM (((`tl_tools`
   JOIN `tl_members_tools` ON (`tl_tools`.`tool_id` = `tl_members_tools`.`tool_id`))

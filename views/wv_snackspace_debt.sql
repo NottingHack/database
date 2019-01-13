@@ -5,7 +5,7 @@ SELECT
   -(1) AS `member_id`,
   'TOTAL' AS `member_name`,
   '' AS `member_status`,
-  TRUNCATE( SUM(`transactions`.`amount`) / 100), 2) AS `balance`,
+  TRUNCATE( SUM(`transactions`.`amount`) / 100, 2) AS `balance`,
   TRUNCATE( ABS( SUM( IF(`transactions`.`amount` < 0, `transactions`.`amount`, 0) ) / 100), 2) AS `debit`,
   TRUNCATE( ABS( SUM( IF(`transactions`.`amount` > 0, `transactions`.`amount`, 0) ) / 100), 2) AS `credit`
 FROM `transactions`
@@ -13,8 +13,9 @@ WHERE (`transactions`.`transaction_status` = 'COMPLETE')
 UNION ALL
 SELECT
   -(1) AS `member_id`,
-  'BAD DEBT' AS `member_name`,'' AS `member_status`,
-  TRUNCATE( SUM(`transactions`.`amount`) / 100), 2) AS `balance`,
+  'BAD DEBT' AS `member_name`,
+  '' AS `member_status`,
+  TRUNCATE( SUM(`transactions`.`amount`) / 100, 2) AS `balance`,
   TRUNCATE( ABS( SUM( IF(`transactions`.`amount` < 0, `transactions`.`amount`, 0) ) / 100), 2) AS `debit`,
   TRUNCATE( ABS( SUM( IF(`transactions`.`amount` > 0, `transactions`.`amount`, 0) ) / 100), 2) AS `credit`
 FROM (`transactions`
@@ -23,9 +24,9 @@ WHERE ((`transactions`.`transaction_status` = 'COMPLETE') AND (`members`.`member
 UNION ALL
 SELECT
   `members`.`member_id` AS `member_id`,
-  CONCAT_WS(' ',`members`.`firstname`,`members`.`surname`) AS `member_name`,
+  CONCAT_WS(' ',`members`.`firstname`, `members`.`surname`) AS `member_name`,
   `status`.`title` AS `member_status`,
-  TRUNCATE( `members`.`balance` / 100), 2) AS `balance`,
+  TRUNCATE( `members`.`balance` / 100, 2) AS `balance`,
   TRUNCATE( ABS( SUM( IF(`transactions`.`amount` < 0, `transactions`.`amount`, 0) ) / 100), 2) AS `debit`,
   TRUNCATE( ABS( SUM( IF(`transactions`.`amount` > 0, `transactions`.`amount`, 0) ) / 100), 2) AS `credit`
 FROM ((`members`

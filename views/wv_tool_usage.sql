@@ -5,8 +5,7 @@ SELECT
   `tl_tools`.`tool_id` AS `tool_id`,
   `tl_tools`.`tool_name` AS `tool_name`,
   `members`.`member_id` AS `member_id`,
-  CONCAT_WS(' ', `members`.`firstname`,
-  `members`.`surname`) AS `member_name`,
+  CONCAT_WS(' ', `members`.`firstname`, `members`.`surname`) AS `member_name`,
   `members`.`email` AS `member_email`,
   DATE_FORMAT(`tl_tool_usages`.`usage_start`, '%d/%m/%Y %H:%i:%s') AS `time`,
   (`tl_tool_usages`.`usage_duration` / 60) AS `usage_mins`

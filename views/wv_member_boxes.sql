@@ -1,20 +1,17 @@
-DROP VIEW IF EXISTS `wv_access_log`;
+DROP VIEW IF EXISTS `wv_member_boxes`;
 
-CREATE VIEW `wv_access_log` AS
+CREATE VIEW `wv_member_boxes` AS
 SELECT
-  `access_log`.`access_time` AS `access_time`,
-  CONCAT_WS(' ', `members`.`firstname`, `members`.`surname`) AS `member_name`,
-  `doors`.`door_description` AS `door`,
-  `side_a_zone`.`zone_description` AS `zone_a`,
-  `side_b_zone`.`zone_description` AS `zone_b`,
-  (CASE
-    WHEN (`access_log`.`access_result` = 10) THEN 'Denied'
-    WHEN (`access_log`.`access_result` = 20) THEN 'Granted'
-    END) AS `access_result`,
-  `access_log`.`denied_reason` AS `denied_reason`
-FROM ((((`access_log`
-  LEFT join `members` ON (`members`.`member_id` = `access_log`.`member_id`))
-  LEFT join `doors` ON (`doors`.`door_id` = `access_log`.`door_id`))
-  LEFT join `zones` `side_a_zone` ON (`doors`.`side_a_zone_id` = `side_a_zone`.`zone_id`))
-  LEFT join `zones` `side_b_zone` ON (`doors`.`side_b_zone_id` = `side_b_zone`.`zone_id`))
-ORDER BY `access_log`.`access_time` DESC;
+   member_boxes.member_box_id AS member_box_id,
+   member_boxes.member_id AS member_id,
+   CONCAT_WS(' ', members.firstname, members.surname) AS member_name,
+   member_boxes.bought_date AS bought_date,
+   (CASE
+    WHEN (member_boxes.state = 10) THEN 'In Use'
+    WHEN (member_boxes.state = 20) THEN 'Removed'
+    WHEN (member_boxes.state = 30) THEN 'Abandoned'
+    END) AS box_status,
+   status.title AS member_status
+FROM ((member_boxes
+  JOIN members ON (member_boxes.member_id = members.member_id))
+  LEFT JOIN status ON (members.member_status = status.status_id));

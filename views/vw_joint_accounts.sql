@@ -1,4 +1,4 @@
-DROP VIEW IF EXISTS `vw_joint_accounts`
+DROP VIEW IF EXISTS `vw_joint_accounts`;
 
 CREATE VIEW `vw_joint_accounts` AS
 SELECT

@@ -3,8 +3,7 @@ DROP VIEW IF EXISTS `wv_access_log`;
 CREATE VIEW `wv_access_log` AS
 SELECT
   `access_log`.`access_time` AS `access_time`,
-  CONCAT_WS(' ', `members`.`firstname`,
-  `members`.`surname`) AS `member_name`,
+  CONCAT_WS(' ', `members`.`firstname`, `members`.`surname`) AS `member_name`,
   `doors`.`door_description` AS `door`,
   `side_a_zone`.`zone_description` AS `zone_a`,
   `side_b_zone`.`zone_description` AS `zone_b`,

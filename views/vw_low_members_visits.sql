@@ -1,7 +1,7 @@
-DROP VIEW IF EXISTS `vw_low_members_visits`
+DROP VIEW IF EXISTS `vw_low_members_visits`;
 
-CREATE VIEW `vw_low_members_visits`
-AS SELECT
+CREATE VIEW `vw_low_members_visits` AS
+SELECT
   `mepd`.`member_id` AS `member_id`,
   `m`.`firstname` AS `firstname`,
   `m`.`surname` AS `surname`,

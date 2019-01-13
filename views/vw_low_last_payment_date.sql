@@ -1,7 +1,7 @@
-DROP VIEW IF EXISTS `vw_low_last_payment_date`
+DROP VIEW IF EXISTS `vw_low_last_payment_date`;
 
-CREATE VIEW `vw_low_last_payment_date`
-AS SELECT
+CREATE VIEW `vw_low_last_payment_date` AS
+SELECT
   `bt`.`account_id` AS `account_id`,
   MAX(`bt`.`transaction_date`) AS `last_payment_date`
 FROM `bank_transactions` `bt`

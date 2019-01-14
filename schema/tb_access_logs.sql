@@ -11,8 +11,6 @@ CREATE TABLE `access_logs` (
   `access_result` int(11) NOT NULL DEFAULT 0,
   `denied_reason` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `UNIQ_656A05A27A4676` (`rfid_serial`),
-  UNIQUE KEY `UNIQ_656A05AB5852DF3` (`pin`),
   KEY `IDX_656A05AA76ED395` (`user_id`),
   KEY `IDX_656A05A58639EAE` (`door_id`),
   KEY `access_time_index` (`access_time`),

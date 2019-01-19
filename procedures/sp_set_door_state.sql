@@ -25,9 +25,9 @@ BEGIN
     
     update doors
     set 
-      door_state        = p_door_state,
-      door_state_change = sysdate()
-    where door_id = p_door_id;
+      state        = p_door_state,
+      state_change = sysdate()
+    where id = p_door_id;
 
   call sp_log_event(evt, p_door_id);
 

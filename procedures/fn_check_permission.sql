@@ -17,6 +17,7 @@ DETERMINISTIC
 READS SQL DATA
 SQL SECURITY DEFINER
 BEGIN
+/*
   declare c int;
   set c = 0;
 
@@ -37,6 +38,8 @@ BEGIN
   end if;
   
   return c;
+  */
+  return 1;
 END //
 DELIMITER ;
 

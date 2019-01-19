@@ -3,7 +3,7 @@ drop procedure if exists sp_last_seen;
 DELIMITER //
 CREATE PROCEDURE sp_last_seen
 (
-   IN member_id  int,
+   IN p_member_id  int,
    OUT last_seen varchar(100)
 )
 SQL SECURITY DEFINER
@@ -19,9 +19,9 @@ BEGIN
   into
     days,
     mhs
-  from members m 
-  inner join access_log l on l.member_id = m.member_id
-  where m.member_id = member_id 
+  from user u 
+  inner join access_logs l on l.user_id = u.id
+  where u.id = p_member_id
   order by access_time desc
   limit 1;
 

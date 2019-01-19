@@ -32,8 +32,8 @@ BEGIN
 
     -- See if the serial is known
     select count(*) into ck_exists
-    from members m
-    inner join rfid_tags r on r.member_id = m.member_id
+    from user u
+    inner join rfid_tags r on r.user_id = u.id
     where r.rfid_serial = p_rfid_serial;
 
     if (ck_exists = 0) then
@@ -48,12 +48,12 @@ BEGIN
 
     select
       r.state,
-      m.member_id
+      u.id
     into
       r_state,
       p_member_id
-    from members m 
-    inner join rfid_tags r on r.member_id = m.member_id 
+    from user u 
+    inner join rfid_tags r on r.user_id = u.id
     where r.rfid_serial = p_rfid_serial
     order by state limit 1;
 

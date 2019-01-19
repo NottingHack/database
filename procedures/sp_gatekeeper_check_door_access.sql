@@ -67,7 +67,7 @@ BEGIN
       l_side_a_zone_id,
       l_side_b_zone_id
     from doors d
-    where d.door_id = p_door_id;
+    where d.id = p_door_id;
 
     -- Get zone each side of the door
     if (p_door_side is not null) then
@@ -94,12 +94,17 @@ BEGIN
     end;
     end if;
 
-
+/* TODO: member_status is no longer a thing
     -- get member_status
     select member_status
     into l_member_status
     from members m
     where m.member_id = p_member_id;
+ */
+ 
+ 
+   set l_member_status = 5;    /* ******** FIXME ********/
+ 
  
     -- Banned members get a special banned message
     if (l_member_status = 7) then

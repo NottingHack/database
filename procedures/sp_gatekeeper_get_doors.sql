@@ -14,13 +14,13 @@ BEGIN
   main: begin
 
   select
-    d.door_id,
-    d.door_description,
-    d.door_short_name,
-    d.door_state,
-    d.door_state
+    d.id          as door_id,
+    d.description as door_description,
+    d.short_name  as door_short_name,
+    d.state       as door_state,
+    d.state       as door_state
   from doors d
-  where (d.door_id = p_door_id or p_door_id = -1);
+  where (d.id = p_door_id or p_door_id = -1);
 
   end main;
  

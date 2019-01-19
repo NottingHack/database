@@ -38,13 +38,14 @@ BEGIN
     end if;
 
     select
-      coalesce(m.unlock_text, 'Welcome'),
-      coalesce(m.username, '<unknown>')
+      coalesce(p.unlock_text, 'Welcome'),
+      coalesce(u.username, '<unknown>')
     into
       p_display_msg,
       p_username
-    from members m
-    where m.member_id = p_member_id;
+    from user u
+    inner join profile p on p.user_id = u.id
+    where u.id = p_member_id;
 
     -- Check the card belongs to either a member, or someone with specific access to open the door
     call sp_gatekeeper_check_door_access(p_member_id, p_door_id, p_door_side, p_new_zone_id, p_err, l_access_denied);
@@ -79,11 +80,11 @@ BEGIN
 
   -- add entry to access log
   if (p_access_granted = 1) then
-    insert into access_log (rfid_serial, pin, access_result, member_id, door_id)
-    values (p_rfid_serial, null, 20, p_member_id, p_door_id); -- granted
+    insert into access_logs (rfid_serial, pin, access_result, user_id, door_id, access_time)
+    values (p_rfid_serial, null, 20, p_member_id, p_door_id, sysdate()); -- granted
   else
-    insert into access_log (rfid_serial, pin, access_result, member_id, denied_reason, door_id)
-    values (p_rfid_serial, null, 10, p_member_id, p_err, p_door_id); -- denied
+    insert into access_logs (rfid_serial, pin, access_result, user_id, denied_reason, door_id, access_time)
+    values (p_rfid_serial, null, 10, p_member_id, p_err, p_door_id, sysdate()); -- denied
   end if;
 
 END //

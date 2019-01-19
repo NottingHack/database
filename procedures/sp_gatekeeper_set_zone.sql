@@ -23,11 +23,11 @@ BEGIN
 
   -- First, check if there is already an entry in zone_occupancy table for the member
   select count(*) into ck_exists
-  from zone_occupancy z
-  where z.member_id = p_member_id;
+  from zone_occupants z
+  where z.user_id = p_member_id;
   
   if (ck_exists = 0) then
-    insert into zone_occupancy (zone_id      , member_id  )
+    insert into zone_occupants (zone_id      , user_id    )
                         values (p_new_zone_id, p_member_id);
   else
     -- get previous zone
@@ -37,19 +37,19 @@ BEGIN
     into 
       old_zone_id,
       old_time_entered
-    from zone_occupancy z
-    where z.member_id = p_member_id;
+    from zone_occupants z
+    where z.user_id = p_member_id;
 
     -- update record with new zone
-    update zone_occupancy
+    update zone_occupants
     set 
       zone_id = p_new_zone_id,
       time_entered = sysdate()
-    where member_id = p_member_id;
+    where user_id = p_member_id;
 
     -- record log entry for old zone
-    insert into zone_occupancy_log (zone_id    , member_id  , time_entered    )
-                            values (old_zone_id, p_member_id, old_time_entered);
+    insert into zone_occupancy_logs (zone_id    , user_id    , time_entered    , time_exited)
+                             values (old_zone_id, p_member_id, old_time_entered, sysdate());
 
   end if;
 END //

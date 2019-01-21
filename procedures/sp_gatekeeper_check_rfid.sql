@@ -37,44 +37,26 @@ BEGIN
       leave main;
     end if;
 
-    select
-      coalesce(p.unlock_text, 'Welcome'),
-      coalesce(u.username, '<unknown>')
-    into
-      p_display_msg,
-      p_username
-    from user u
-    inner join profile p on p.user_id = u.id
-    where u.id = p_member_id;
-
     -- Check the card belongs to either a member, or someone with specific access to open the door
-    call sp_gatekeeper_check_door_access(p_member_id, p_door_id, p_door_side, p_new_zone_id, p_err, l_access_denied);
-    if (l_access_denied != 0) then
-      -- Vary the message depending on the reason
-      if (l_access_denied = 1) then
-        set p_err = "Not a current member";
-        set p_display_msg = "Access Denied: Ex-member";
-      elseif (l_access_denied = 2) then
-        set p_err = "No permission to open door";
-        set p_display_msg = "Access Denied:";
-      elseif (l_access_denied = 3) then
-        set p_err = "Not in correct zone (didn't swipe out?)";
-        set p_display_msg = "Access Denied: Out of zone";
-      elseif (l_access_denied = 4) then
-        set p_err = "Banned member (member status 7)";
-        set p_display_msg = "Access Denied: Banned Member";
-      else 
-        -- Some other reason, send non-specific Access Denied
-        set p_err = "Access Denied (other)";
-        set p_display_msg = concat("Access Denied:", convert(l_access_denied, char));
-      end if;
+    call sp_gatekeeper_check_door_access(p_member_id, p_door_id, p_door_side, p_new_zone_id, p_err, p_display_msg, l_access_denied);
+    if (l_access_denied = 0) then
+      set p_access_granted = 1;
 
+      select
+        coalesce(p.unlock_text, 'Welcome'),
+        coalesce(u.username, '<unknown>')
+      into
+        p_display_msg,
+        p_username
+      from user u
+      inner join profile p on p.user_id = u.id
+      where u.id = p_member_id;
+    else
       leave main;
     end if;
 
-    set p_access_granted = 1;
   end main;
-  
+
   -- Get last seen text from access log
   call sp_last_seen(p_member_id, p_last_seen);
 

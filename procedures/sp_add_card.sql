@@ -15,8 +15,8 @@ BEGIN
   set member_exists = 0;
   
   select count(*) into member_exists
-  from members m
-  where m.member_id = member_id;
+  from user u
+  where u.id = member_id;
   
   if (member_exists != 1) then
     set err = "Member not found";
@@ -28,7 +28,7 @@ BEGIN
       and state = 10; -- active
     
     if (card_exists = 0) then
-      insert into rfid_tags (member_id, rfid_serial, state) values (member_id, rfid_serial, 10);
+      insert into rfid_tags (user_id, rfid_serial, state) values (member_id, rfid_serial, 10);
       set err = null;
     else
       set err = "Active card with same serial already in database";

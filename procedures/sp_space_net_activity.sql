@@ -36,34 +36,34 @@ BEGIN
   limit 1;
  
   -- Get the current state of the LMS
-  select event_type
+  select type
   into hs_state
-  from events
-  where event_type in ('FIRST_IN', 'LAST_OUT')
-  order by event_time desc, event_id desc
+  from events e
+  where e.type in ('FIRST_IN', 'LAST_OUT')
+  order by e.time desc, id desc
   limit 1; 
  
   -- See if the door is open or closed
-  select 
-    event_type, 
-    timestampdiff(MINUTE, event_time, sysdate()), 
-    timestampdiff(SECOND, event_time, sysdate()) 
+  select
+    type, 
+    timestampdiff(MINUTE, e.time, sysdate()),
+    timestampdiff(SECOND, e.time, sysdate())
   into 
-    door_state, 
+    door_state,
     door_event_time_m,
     door_event_time_s
-  from events
-  where event_type in ('DOOR_OPENED', 'DOOR_CLOSED', 'DOOR_LOCKED')
-  order by event_time desc, event_id desc
-  limit 1; 
- 
+  from events e
+  where e.type in ('DOOR_OPENED', 'DOOR_CLOSED', 'DOOR_LOCKED')
+  order by e.time desc, e.id desc
+  limit 1;
+
   -- LMS text
   if (hs_state = 'FIRST_IN') then
     set mesg = concat(mesg, 'Last man out switch: Open, ');
   else
     set mesg = concat(mesg, 'Last man out switch: Closed, ');
   end if;
-    
+
   -- Adddress count text
   if (addr_last_time_s is not null) then
     if (addr_last_time_s < 60) then

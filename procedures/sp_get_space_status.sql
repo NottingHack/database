@@ -16,18 +16,18 @@ SQL SECURITY DEFINER
 BEGIN
       
   select 
-    case event_type
+    case type
       when 'FIRST_IN' then 'Yes'
       when 'LAST_OUT' then 'No'
       else '???'
-    end as state, 
-    unix_timestamp(event_time)
+    end as state,
+    unix_timestamp(time)
   into
     space_open,
     last_change
-  from events  
-  where event_type in ("LAST_OUT","FIRST_IN") 
-  order by event_time desc 
+  from events
+  where type in ("LAST_OUT","FIRST_IN")
+  order by time desc 
   limit 1;
 
 

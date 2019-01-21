@@ -52,4 +52,10 @@ INSERT INTO `permissions` (`id`, `name`) VALUES
   (53, 'tools.inductor.grant'),
   (52, 'tools.maintainer.grant'),
   (54, 'tools.user.grant'),
-  (48, 'tools.view');
+  (48, 'tools.view'),
+  (55, 'gatekeeper.zoneEntry.outside'),
+  (56, 'gatekeeper.zoneEntry.classRoomMetalworking'),
+  (57, 'gatekeeper.zoneEntry.cncBlueRoom'),
+  (58, 'gatekeeper.zoneEntry.downstairsMembersStrorage'),
+  (59, 'gatekeeper.zoneEntry.teamStrorage'),
+  (60, 'gatekeeper.zoneEntry.upstairs');

@@ -9,7 +9,6 @@ CREATE TABLE `doors` (
   `short_name` varchar(16) COLLATE utf8mb4_unicode_ci NOT NULL,
   `state` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `state_change` datetime NOT NULL,
-  `permission_code` varchar(16) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_5E5B762A49451B7F` (`side_a_zone_id`),
   KEY `IDX_5E5B762A70C827BA` (`side_b_zone_id`),

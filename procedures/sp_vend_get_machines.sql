@@ -13,19 +13,19 @@ SQL SECURITY DEFINER
 BEGIN
   declare ck_exists int;
   declare tran_id   int;
-  main: begin  
+  main: begin
 
   select
-    vd.vmc_id,
-    vd.vmc_description,
-    vd.vmc_type,
-    vd.vmc_connection,
-    vd.vmc_address
-  from vmc_details vd
-  where vd.vmc_id = p_vmc_id or p_vmc_id = -1;
+    vd.id          as vmc_id,
+    vd.description as vmc_description,
+    vd.type        as vmc_type,
+    vd.connection  as vmc_connection,
+    vd.address     as vmc_address
+  from vending_machines vd
+  where vd.id = p_vmc_id or p_vmc_id = -1;
 
   end main;
- 
+
 
 END //
 DELIMITER ;

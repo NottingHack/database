@@ -9,34 +9,34 @@ drop procedure if exists sp_vend_cancel;
 DELIMITER //
 CREATE PROCEDURE sp_vend_cancel
 (
-   IN  rfid_serial  varchar( 50),
-   IN  vend_tran_id varchar(  6),
-   OUT err          varchar(100)
+   IN  p_rfid_serial  varchar( 50),
+   IN  p_vend_tran_id varchar(  6),
+   OUT p_err          varchar(100)
 )
 SQL SECURITY DEFINER
 BEGIN
   declare ck_exists int;
   declare tran_id   int;
-  set err = '';
+  set p_err = '';
 
-  main: begin  
+  main: begin
 
     -- Check the transaction id & serial id match up with an active vend entry
     select count(*) into ck_exists
-    from vend_log v  
-    where v.vend_tran_id = vend_tran_id
-      and v.rfid_serial = rfid_serial 
-      and v.cancelled_datetime is null
-      and v.req_datetime is null;
-      
+    from vend_logs v
+    where v.id = p_vend_tran_id
+      and v.rfid_serial = p_rfid_serial
+      and v.cancelled_time is null
+      and v.request_time is null;
+
     if (ck_exists = 0) then
-      set err = 'unable to find matching entry in vend_log (BUG)'; 
+      set p_err = 'unable to find matching entry in vend_log (BUG)';
       leave main;
     end if;
 
-    update vend_log
-    set cancelled_datetime = sysdate()
-    where vend_log.vend_tran_id = vend_tran_id;    
+    update vend_logs
+    set cancelled_time = sysdate()
+    where vend_logs.id = p_vend_tran_id;
 
   end main;
  

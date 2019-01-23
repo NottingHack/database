@@ -23,25 +23,25 @@ BEGIN
   
   declare unalloc_payments_cur cursor for
       select 
-        t.transaction_id, 
+        t.id, 
         t.amount,
         ( -- amount of this payment that's already been allocated to a purchase.
           select ifnull(sum(pp.amount), 0)
           from purchase_payment pp
-          where pp.transaction_id_payment = t.transaction_id
+          where pp.transaction_id_payment = t.id
         ) as already_alloc
       from transactions t
-      where t.member_id = p_member_id
-        and t.transaction_id < p_transaction_id
+      where t.user_id = p_member_id
+        and t.id < p_transaction_id
         and t.amount > 0
         and t.amount >
         (
           select ifnull(sum(pp.amount), 0)
           from purchase_payment pp
-          where pp.transaction_id_payment = t.transaction_id
+          where pp.transaction_id_payment = t.id
             and pp.transaction_id_purchase <= p_transaction_id
         )
-        order by t.transaction_id;
+        order by t.id;
 
   declare continue handler for not found set done = TRUE;
   

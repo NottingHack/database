@@ -31,18 +31,18 @@ BEGIN
   declare v_unalloc_purchase  int;
 
 
-  main: begin  
+  main: begin
 
-  
-    select t.member_id, t.amount, t.transaction_type
+
+    select t.user_id, t.amount, t.transaction_type
     into   v_member_id, v_amount, v_transaction_type
     from transactions t
-    where t.transaction_id = p_transaction_id;
-    
+    where t.id = p_transaction_id;
+
     if (v_amount = 0) then
       leave main;
     end if;
-    
+
     if (v_amount < 0) then -- a purchase
       -- Check if any (get amount) payments have already been allocated to this transaction
       select -1*(ifnull(sum(pp.amount),0))
@@ -62,14 +62,14 @@ BEGIN
       select ifnull(sum(t.amount), 0)
       into v_unalloc_payments
       from transactions t
-      where t.member_id = v_member_id
-        and t.transaction_id < p_transaction_id
+      where t.user_id = v_member_id
+        and t.id < p_transaction_id
         and t.amount > 0
         and t.amount >
         (
           select ifnull(sum(pp.amount), 0)
           from purchase_payment pp
-          where pp.transaction_id_payment = t.transaction_id
+          where pp.transaction_id_payment = t.id
             and pp.transaction_id_purchase < p_transaction_id
             and pp.transaction_id_payment  < p_transaction_id
         );
@@ -100,14 +100,14 @@ BEGIN
       select ifnull(sum(-1*t.amount), 0)
       into v_unalloc_purchase
       from transactions t
-      where t.member_id = v_member_id
-        and t.transaction_id < p_transaction_id
+      where t.user_id = v_member_id
+        and t.id < p_transaction_id
         and t.amount < 0
         and -1*t.amount >
         (
           select ifnull(sum(pp.amount), 0)
           from purchase_payment pp
-          where pp.transaction_id_purchase = t.transaction_id
+          where pp.transaction_id_purchase = t.id
             and pp.transaction_id_purchase < p_transaction_id
             and pp.transaction_id_payment  < p_transaction_id
         );

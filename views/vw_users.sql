@@ -17,5 +17,6 @@ SELECT
 FROM user u
   INNER JOIN role_user ru ON (ru.user_id = u.id)
   INNER JOIN roles r ON (r.id = ru.role_id)
-WHERE u.username IS NOT NULL
-  AND r.name IN ('member.current', 'member.young');
+  INNER JOIN permission_role pr ON pr.role_id = r.id
+  INNER JOIN permissions p ON p.id = pr.permission_id
+WHERE p.name IN ('login.shell');

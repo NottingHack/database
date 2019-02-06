@@ -16,25 +16,25 @@ BEGIN
   declare usage_id int;
   declare l_tool_id int;
 
-  declare tool_use_cur cursor for 
-    select tu.usage_id
-    from tl_tool_usages tu
-    inner join tl_tools t on t.tool_id = tu.tool_id
-    where tu.usage_status = 'IN_PROGRESS'
-      and t.tool_name = p_tool_name;
-  
+  declare tool_use_cur cursor for
+    select tu.id
+    from tool_usages tu
+    inner join tools t on t.id = tu.tool_id
+    where tu.status = 'IN_PROGRESS'
+      and t.name = p_tool_name;
+
   declare continue handler for not found set done = TRUE;
 
   set p_msg = '';
-  
+
   main: begin
-   
+
     -- Check tool name is actaully known
     select count(*)
     into cnt
-    from tl_tools t
-    where t.tool_name = p_tool_name;
-    
+    from tools t
+    where t.name = p_tool_name;
+
     if (cnt = 0) then
       set p_msg = 'Tool not configured';
     leave main;
@@ -42,39 +42,39 @@ BEGIN
       set p_msg = 'Tool config error';
       leave main;
     end if;
-    
+
     -- Get tool status
-    select 
-      t.tool_status,
-      t.tool_id
-    into 
+    select
+      t.status,
+      t.id
+    into
       tool_status,
       l_tool_id
-    from tl_tools t
-    where t.tool_name = p_tool_name;  
-    
+    from tools t
+    where t.name = p_tool_name;
+
     -- Set the tool's status back to free if applicable
     if (tool_status = 'IN_USE') then
-      update tl_tools
-      set tool_status = 'FREE'
-      where tl_tools.tool_id = l_tool_id;
-    end if;  
-    
+      update tools
+      set status = 'FREE'
+      where tools.id = l_tool_id;
+    end if;
+
     open tool_use_cur;
-    
+
     read_loop: LOOP
       fetch tool_use_cur into usage_id;
-        
-      if done then 
+
+      if done then
         leave read_loop;
       end if;
-      
+
       call sp_tool_charge(usage_id, sysdate(), p_usage_active_time, p_msg);
-      
+
       set p_usage_active_time = 0;
-      
-    end loop; 
+
+    end loop;
   end main;
-    
+
 END //
 DELIMITER ;

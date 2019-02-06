@@ -29,7 +29,7 @@ BEGIN
   inner join permission_role pr on pr.role_id = r.id
   inner join permissions p on p.id = pr.permission_id
   where u.id = member_id
-    and p.name = permission_desc;
+    and lower(p.name) = lower(permission_desc);
 
   if (c >= 1) then
     set c = 1;

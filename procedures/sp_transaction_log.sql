@@ -11,7 +11,7 @@ CREATE PROCEDURE sp_transaction_log
    IN  p_amount       int,
    IN  p_tran_type    varchar(6),
    IN  p_tran_status  varchar(8),
-   IN  p_tran_desc    varchar(50),
+   IN  p_tran_desc    varchar(512),
    IN  p_recorded_by  int,
    OUT p_tran_id      int,
    OUT p_err          varchar(100)

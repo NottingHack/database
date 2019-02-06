@@ -11,7 +11,7 @@ CREATE PROCEDURE sp_transaction_update
 (
   IN  p_tran_id     int,
   IN  p_tran_status varchar(  8),
-  IN  p_tran_desc   varchar( 50),
+  IN  p_tran_desc   varchar(512),
   OUT p_err         varchar(100)
 )
 SQL SECURITY DEFINER
@@ -54,7 +54,8 @@ BEGIN
     begin
       declare EXIT HANDLER for SQLEXCEPTION, SQLWARNING
       begin
-        set p_err = 'Error - transaction rollback!';
+        GET DIAGNOSTICS CONDITION 1 @text = MESSAGE_TEXT;
+        set p_err = concat('Error - transaction rollback!: ', @text);
         rollback;
       end;
 

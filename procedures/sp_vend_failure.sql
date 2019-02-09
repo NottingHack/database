@@ -27,7 +27,7 @@ BEGIN
       and v.rfid_serial = rfid_serial
       and v.cancelled_time is null
       and v.transaction_id is not null
-      and v.failed_datetime is null;
+      and v.failed_date is null;
 
     if (ck_exists = 0) then
       set err = 'unable to find matching entry in vend_log (BUG)';
@@ -47,8 +47,8 @@ BEGIN
     end if;
 
     update vend_log
-    set failed_datetime = sysdate()
-    where vend_log.vend_tran_id = vend_tran_id;
+    set failed_time = sysdate()
+    where vend_log.id = vend_tran_id;
 
   end main;
 

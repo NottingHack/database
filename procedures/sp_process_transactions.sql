@@ -18,7 +18,7 @@ BEGIN
       select 
         t.transaction_id
       from transactions t
-      where t.member_id = p_member_id
+      where t.user_id = p_member_id
       order by t.transaction_id;
 
   declare continue handler for not found set done = TRUE;

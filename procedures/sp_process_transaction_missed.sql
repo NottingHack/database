@@ -18,7 +18,7 @@ BEGIN
       select 
         t.transaction_id
       from transactions t
-      where (t.member_id = p_member_id or p_member_id = -1)
+      where (t.user_id = p_member_id or p_member_id = -1)
         and t.transaction_id not in (select pp1.transaction_id_purchase from purchase_payment pp1)
         and t.transaction_id not in (select pp2.transaction_id_payment  from purchase_payment pp2)
       order by t.transaction_id;

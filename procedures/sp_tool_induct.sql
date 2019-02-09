@@ -1,37 +1,44 @@
 drop procedure if exists sp_tool_induct;
 
-/* Recorded member with card <card_inductee> as having been inducted on <tool_name> by member with card <card_inductee>.
- * ret = 0 on success, non-zero on failure
- * p_msg = mesage to show on LCD */
+/* Recorded member with card <p_card_inductee> as having been inducted on <p_tool_name> by member with card <p_card_inductee>.
+ * p_ret = 0 on success, non-zero on failure
+ * p_msg = mesage to show on LCD (only first 16 characters appear on display) */
 
 DELIMITER //
 CREATE PROCEDURE sp_tool_induct
 (
-   IN  tool_name       varchar( 20),
-   IN  card_inductor   varchar( 50),
-   IN  card_inductee   varchar( 50),
-   OUT ret             int,
-   OUT p_msg           varchar(200)
+   IN  p_tool_name       varchar( 20),
+   IN  p_card_inductor   varchar( 50),
+   IN  p_card_inductee   varchar( 50),
+   OUT p_ret             int,
+   OUT p_msg             varchar(200)
 )
 SQL SECURITY DEFINER
 BEGIN
-           -- ret: 0 = success, others=failure
   declare cnt int;
-  declare inductor_id int;
-  declare inductee_id int;
+  declare l_inductor_id int;
+  declare l_inductee_id int;
   declare tool_id int;
 
+  declare EXIT HANDLER for SQLEXCEPTION, SQLWARNING
+  begin
+    GET DIAGNOSTICS CONDITION 1 @text = MESSAGE_TEXT;
+    -- note that only the first 16 characters of the error appears in the tool LCD. But all of it ends up in the log.
+    set p_msg = concat('Failed: int err. Error - transaction rollback!: ', @text);
+    rollback;
+  end;
+
   set p_msg = '';
-  set ret = -1;
-  
+  set p_ret = -1;
+
   main: begin
-   
+
     -- Check tool name is actaully known
     select count(*)
     into cnt
-    from tl_tools t
-    where t.tool_name = tool_name;
-    
+    from tools t
+    where t.name = p_tool_name;
+
     if (cnt = 0) then
       set p_msg = 'Tool not configured';
     leave main;
@@ -39,82 +46,105 @@ BEGIN
       set p_msg = 'Tool config error';
       leave main;
     end if;
-    
-    -- Get tool id 
-    select t.tool_id
+
+  -- Get tool id
+    select t.id
     into tool_id
-    from tl_tools t
-    where t.tool_name = tool_name;
-    
-    -- Check <card_inductor> is actaully listed as being able to give inductions, and get details if so
+    from tools t
+    where t.name = p_tool_name;
+
+    -- Check <p_card_inductor> is actaully listed as being able to give inductions, and get details if so
     select count(*)
     into cnt
-    from members m
-    inner join rfid_tags r on m.member_id = r.member_id
-    inner join tl_members_tools mt on mt.member_id = m.member_id
-    inner join tl_tools tl on tl.tool_id = mt.tool_id
-    where r.rfid_serial = card_inductor
-      and tl.tool_name = tool_name
-      and mt.mt_access_level in ('INDUCTOR','MAINTAINER');
-      
+    from rfid_tags r
+    where r.rfid_serial = p_card_inductor
+      and r.state = 10
+      and (fn_check_permission(r.user_id, concat('tools.', replace(p_tool_name, ' ', ''), '.induct')) = 1);
+
     if (cnt <= 0) then
       set p_msg = 'Access denied    (NI)';
       leave main;
     end if;
-    
+
     -- Get member id of inductor
-    select m.member_id
-    into inductor_id
-    from members m
-    inner join rfid_tags r on r.member_id = m.member_id
-    where r.rfid_serial = card_inductor;
+    select r.id
+    into l_inductor_id
+    from rfid_tags r
+    where r.rfid_serial = p_card_inductor
+      and r.state = 10;
 
-
-    -- check <card_inductee> relates to a current member
+    -- check <p_card_inductee> relates to a member with the generic "tools.use" permission
     select count(*)
     into cnt
-    from members m
-    inner join rfid_tags r on m.member_id = r.member_id
-    where r.rfid_serial = card_inductee
+    from user u
+    inner join rfid_tags r on u.id = r.user_id
+    where r.rfid_serial = p_card_inductee
       and r.state = 10
-      and m.member_status = 5; -- CURRENT MEMBER
-    
+      and (fn_check_permission(u.id, 'tools.use') = 1);
+
     if (cnt <= 0) then
-      set p_msg = 'Failed: bad card';
+      set p_msg = 'Bad card/No perm.';
       leave main;
     end if;
 
-    
     -- Check if inductee has already been inducted.. and just return success if so
     select count(*)
     into cnt
-    from members m
-    inner join rfid_tags r on m.member_id = r.member_id
-    inner join tl_members_tools mt on mt.member_id = m.member_id
-    inner join tl_tools tl on tl.tool_id = mt.tool_id
-    where r.rfid_serial = card_inductee
-      and tl.tool_name = tool_name;
-      
+    from user u
+    inner join rfid_tags r on u.id = r.user_id
+    where r.rfid_serial = p_card_inductee
+      and r.state = 10
+      and (fn_check_permission(r.user_id, concat('tools.', replace(p_tool_name, ' ', ''), '.use')) = 1);
+
     if (cnt > 0) then
       set p_msg = 'Already inducted';
-      set ret = 0;
+      set p_ret = 0;
       leave main;
     end if;
-    
+
     -- Get member id of inductee
-    select m.member_id
-    into inductee_id
-    from members m
-    inner join rfid_tags r on r.member_id = m.member_id
-    where r.rfid_serial = card_inductee;
+    select u.id
+    into l_inductee_id
+    from user u
+    inner join rfid_tags r on r.user_id = u.id
+    where r.rfid_serial = p_card_inductee
+      and r.state = 10;
 
-    -- Add induction record
-    insert into tl_members_tools (member_id  , tool_id, member_id_induct, mt_date_inducted, mt_access_level)
-                          values (inductee_id, tool_id, inductor_id     , sysdate()       , 'USER'); 
-    set ret = 0;
+    start transaction;
 
+    -- Give user being inducted the "user" role for the tool
+    insert into role_user (user_id, role_id)
+    select l_inductee_id, r.id
+    from roles r
+    where r. name = concat('tools.', replace('laser', ' ', ''), '.user');
+
+    -- expecting exactly 1 row inserted
+    set cnt = ROW_COUNT();
+    if (cnt != 1) then
+      set p_msg = concat('Failed: int err. Error - unexpected number of rows inserted into role_user: ', convert(cnt,char));
+      rollback;
+      leave main;
+    end if;
+
+    -- Log who inducted the user
+    insert into role_updates (user_id, added_role_id, created_at, update_by_user_id)
+    select l_inductee_id, r.id, sysdate(), l_inductor_id
+    from roles r
+    where r. name = concat('tools.', replace('laser', ' ', ''), '.user');
+
+    -- expecting exactly 1 row inserted
+    set cnt = ROW_COUNT();
+    if (cnt != 1) then
+      set p_msg = concat('Failed: int err. Error - unexpected number of rows inserted into role_updates: ', convert(cnt,char));
+      rollback;
+      leave main;
+    end if;
+
+    commit;
+
+    set p_ret = 0;
 
   end main;
-    
+
 END //
 DELIMITER ;

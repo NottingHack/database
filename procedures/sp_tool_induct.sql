@@ -116,7 +116,7 @@ BEGIN
     insert into role_user (user_id, role_id)
     select l_inductee_id, r.id
     from roles r
-    where r. name = concat('tools.', replace('laser', ' ', ''), '.user');
+    where r. name = concat('tools.', replace(p_tool_name, ' ', ''), '.user');
 
     -- expecting exactly 1 row inserted
     set cnt = ROW_COUNT();
@@ -130,7 +130,7 @@ BEGIN
     insert into role_updates (user_id, added_role_id, created_at, update_by_user_id)
     select l_inductee_id, r.id, sysdate(), l_inductor_id
     from roles r
-    where r. name = concat('tools.', replace('laser', ' ', ''), '.user');
+    where r. name = concat('tools.', replace(p_tool_name, ' ', ''), '.user');
 
     -- expecting exactly 1 row inserted
     set cnt = ROW_COUNT();

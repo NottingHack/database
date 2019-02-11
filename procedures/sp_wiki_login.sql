@@ -19,16 +19,16 @@ BEGIN
     -- See if the username is known & member has permission to logon
     select count(*) 
     into ck_exists
-    from members m
-    where upper(m.username) = upper(username);
+    from user u
+    where upper(u.username) = upper(username);
 -- Commented out: everyone has wiki access.
 --    and (fn_check_permission(m.member_id, 'WIKI_ACCESS')=1);
 
     if (ck_exists = 1) then
-      select m.email, concat_ws(' ', ifnull(firstname, ''), ifnull(surname, '')) as name
+      select u.email, concat_ws(' ', ifnull(u.firstname, ''), ifnull(u.lastname, '')) as name
       into email, name
-      from members m 
-      where upper(m.username) = upper(username);
+      from user u 
+      where upper(u.username) = upper(username);
 
       set ret = 1;
       leave main;

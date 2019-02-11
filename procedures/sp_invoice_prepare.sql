@@ -7,7 +7,7 @@ drop procedure if exists sp_invoice_prepare;
   invoice_month & invoice_year specify which month to generate invoices for.
   Either both or neither must be supplied (if both null, defaults to last month).
   
-  member_id can be specified to generate an invoice for one member only.    
+  member_id can be specified to generate an invoice for one member only.
 
  */
 
@@ -15,22 +15,22 @@ DELIMITER //
 CREATE PROCEDURE sp_invoice_prepare
 (
    IN  invoice_year   int,
-   IN  invoice_month  int, 
+   IN  invoice_month  int,
    IN  member_id      int,
    OUT err            varchar(100)
 )
 SQL SECURITY DEFINER
 BEGIN
-  
+
   declare v_invoice_from  date; -- inclusive
   declare v_invoice_to    date; -- exclusive
-  
+
   set err = '';
 
-  main: begin  
+  main: begin
 
     -- Validate input params
-    if 
+    if
     (
       (
         (invoice_year is null) and
@@ -44,7 +44,7 @@ BEGIN
       set err = 'Either both invoice_month and invoice_year must be specified, or neither';
       leave main;
     end if;
-    
+
     -- Set invoice to/from dates.
     if (invoice_year is not null) then
       set v_invoice_from = str_to_date(concat('1,', invoice_month, ',', invoice_year),'%d,%m,%Y');
@@ -65,14 +65,15 @@ BEGIN
     -- or has transactions in the invoice period 
     insert into invoices (member_id, invoice_from, invoice_to, invoice_generated, invoice_status, invoice_amount)
     select
-      m.member_id,
+      u.id,
       v_invoice_from,
       v_invoice_to,
       now(),
       'GENERATING',
-      m.balance
-    from members m
-    where 
+      p.balance
+    from user u
+    inner join profile p on p.user_id = u.id
+    where
     (
       exists
       (
@@ -81,28 +82,28 @@ BEGIN
         from transactions t
         where t.transaction_datetime >= v_invoice_from
           and t.transaction_datetime <  v_invoice_to
-          and t.member_id = m.member_id
-      ) or 
+          and t.user_id = u.id
+      ) or
       (
         -- member has a non-zero balance
-        m.balance != 0
+        p.balance != 0
       )
     ) and not exists  -- check there isn't already an invoice for this period
-    ( 
+    (
       select null
       from invoices i
-      where i.member_id = m.member_id
-        and i.invoice_from  = v_invoice_from
-        and i.invoice_to    = v_invoice_to    
-        and i.invoice_status in ('GENERATING','GENERATED')
+      where i.user_id = m.member_id
+        and i.from    = v_invoice_from
+        and i.to      = v_invoice_to
+        and i.status in ('GENERATING','GENERATED')
         for update
-    ) and 
+    ) and
     (
-      m.member_id = member_id or member_id is null
+      u.id = member_id or member_id is null
     );
-   
+
   end main;
- 
+
 
 END //
 DELIMITER ;

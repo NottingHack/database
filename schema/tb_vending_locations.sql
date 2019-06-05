@@ -6,9 +6,12 @@ CREATE TABLE `vending_locations` (
   `vending_machine_id` int(10) unsigned DEFAULT NULL,
   `encoding` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
   `name` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `product_id` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `vending_locations_unique_idx` (`id`,`encoding`),
   KEY `IDX_FB51EA3982EA3E1C` (`vending_machine_id`),
+  KEY `IDX_FB51EA394584665A` (`product_id`),
+  CONSTRAINT `FK_FB51EA394584665A` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`),
   CONSTRAINT `FK_FB51EA3982EA3E1C` FOREIGN KEY (`vending_machine_id`) REFERENCES `vending_machines` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=169 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;

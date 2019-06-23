@@ -14,7 +14,7 @@ SELECT
   IFNULL(lmv.visits1M, 0) AS visits1M,
   IFNULL(lmv.visits3M, 0) AS visits3M,
   IFNULL(TRUNCATE(lpa.amount / lmv.visits1M, 2), 0) AS `Payment/Visit 1M`,
-  IFNULL(TRUNCATE(lpa.amount / lmv.visits3M, 2), 0) AS `Payment/Visit 3M`
+  IFNULL(TRUNCATE((lpa.amount * 3) / lmv.visits3M, 2), 0) AS `Payment/Visit 3M`
 FROM ((user u
   LEFT JOIN vw_low_last_payment_amount lpa ON (u.account_id = lpa.account_id))
   LEFT JOIN vw_low_members_visits lmv ON (u.id = lmv.user_id))

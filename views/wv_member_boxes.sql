@@ -3,7 +3,7 @@ DROP VIEW IF EXISTS `wv_member_boxes`;
 CREATE VIEW `wv_member_boxes` AS
 
 SELECT
-   -(1) AS member_box_id,
+   -(5) AS member_box_id,
    count(*) AS user_id,
    '' AS member_name,
    '' AS bought_date,
@@ -15,7 +15,7 @@ WHERE (member_boxes.state = 10)
 UNION ALL
 
 SELECT
-   -(1) AS member_box_id,
+   -(4) AS member_box_id,
    count(*) AS user_id,
    '' AS member_name,
    '' AS bought_date,
@@ -27,7 +27,7 @@ WHERE (member_boxes.state = 20)
 UNION ALL
 
 SELECT
-   -(1) AS member_box_id,
+   -(3) AS member_box_id,
    count(*) AS user_id,
    '' AS member_name,
    '' AS bought_date,
@@ -39,7 +39,7 @@ WHERE (member_boxes.state = 30)
 UNION ALL
 
 SELECT
-   -(1) AS member_box_id,
+   -(2) AS member_box_id,
    count(*) AS user_id,
    '' AS member_name,
    '' AS bought_date,

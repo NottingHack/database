@@ -11,15 +11,15 @@ CREATE PROCEDURE sp_tool_induct
    IN  p_card_inductor   varchar( 50),
    IN  p_card_inductee   varchar( 50),
    OUT p_ret             int,
-   OUT p_msg             varchar(200)
+   OUT p_msg           varchar(200)
 )
 SQL SECURITY DEFINER
 BEGIN
   declare cnt int;
   declare l_inductor_id int;
   declare l_inductee_id int;
+  declare l_tool_pph int;
   declare tool_id int;
-
   declare EXIT HANDLER for SQLEXCEPTION, SQLWARNING
   begin
     GET DIAGNOSTICS CONDITION 1 @text = MESSAGE_TEXT;
@@ -47,9 +47,9 @@ BEGIN
       leave main;
     end if;
 
-  -- Get tool id
-    select t.id
-    into tool_id
+    -- Get tool id
+    select t.id, t.pph
+    into tool_id, l_tool_pph
     from tools t
     where t.name = p_tool_name;
 
@@ -73,6 +73,7 @@ BEGIN
     where r.rfid_serial = p_card_inductor
       and r.state = 10;
 
+
     -- check <p_card_inductee> relates to a member with the generic "tools.use" permission
     select count(*)
     into cnt
@@ -81,12 +82,13 @@ BEGIN
     where r.rfid_serial = p_card_inductee
       and r.state = 10
       and (fn_check_permission(u.id, 'tools.use') = 1);
-
+    
     if (cnt <= 0) then
       set p_msg = 'Bad card/No perm.';
       leave main;
     end if;
 
+    
     -- Check if inductee has already been inducted.. and just return success if so
     select count(*)
     into cnt
@@ -95,13 +97,13 @@ BEGIN
     where r.rfid_serial = p_card_inductee
       and r.state = 10
       and (fn_check_permission(r.user_id, concat('tools.', replace(p_tool_name, ' ', ''), '.use')) = 1);
-
+      
     if (cnt > 0) then
       set p_msg = 'Already inducted';
       set p_ret = 0;
       leave main;
     end if;
-
+    
     -- Get member id of inductee
     select u.id
     into l_inductee_id
@@ -140,11 +142,23 @@ BEGIN
       leave main;
     end if;
 
+    -- If this is a tool that changes, give 60minutes of time after induction
+    if (l_tool_pph > 0) then
+      insert into tool_usages (member_id    , tool_id, start    , status    , duration, active_time)
+                       values (inductee_id  , tool_id, sysdate(), 'COMPLETE', -(60*60), -0);  -- 60s * 60m = 1 hour credit
+      set cnt = ROW_COUNT();
+      if (cnt != 1) then
+        set p_msg = concat('Failed: int err. Error - unexpected number of rows inserted into tool_usages: ', convert(cnt,char));
+        rollback;
+        leave main;
+      end if;
+    end if;
+
     commit;
 
     set p_ret = 0;
 
   end main;
-
+    
 END //
 DELIMITER ;

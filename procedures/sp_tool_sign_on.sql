@@ -131,7 +131,7 @@ BEGIN
             where tu.user_id = p_member_id
               and tu.tool_id = l_tool_id
               and tu.status = 'COMPLETE'
-          ) >= 0
+          ) < 0
         )
       ) then
         -- No credit and no pledged time remaing.

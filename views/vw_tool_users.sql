@@ -20,6 +20,7 @@ FROM  roles rt
   INNER JOIN role_user ru ON (ru.user_id = u.id)
   INNER JOIN roles r ON (r.id = ru.role_id)
 WHERE rt.name LIKE 'tools.%' AND r.name LIKE 'member.%'
+GROUP BY tu.tool_id, u.id
 ORDER BY
   tool,
   (CASE access_level

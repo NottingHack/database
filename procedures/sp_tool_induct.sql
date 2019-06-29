@@ -11,7 +11,7 @@ CREATE PROCEDURE sp_tool_induct
    IN  p_card_inductor   varchar( 50),
    IN  p_card_inductee   varchar( 50),
    OUT p_ret             int,
-   OUT p_msg           varchar(200)
+   OUT p_msg             varchar(2000)
 )
 SQL SECURITY DEFINER
 BEGIN
@@ -67,7 +67,7 @@ BEGIN
     end if;
 
     -- Get member id of inductor
-    select r.id
+    select r.user_id
     into l_inductor_id
     from rfid_tags r
     where r.rfid_serial = p_card_inductor

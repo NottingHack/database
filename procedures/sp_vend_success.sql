@@ -82,8 +82,7 @@ BEGIN
         select vl.name, p.id, p.price, coalesce(p.short_description, 'Unknown item') 
         into location, prdid, price, prddesc
         from vending_locations vl
-        left outer join product_vending_location pvl on pvl.vending_location_id = vl.id
-        left outer join products p on pvl.product_id = p.id
+        left outer join products p on vl.product_id = p.id
         where vl.encoding = p_pos
           and vl.vending_machine_id = vm_id;
       end if;

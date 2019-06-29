@@ -23,8 +23,7 @@ BEGIN
     into p_tweet
     from vend_logs vl
     inner join vending_locations vr on vr.encoding = vl.position
-    inner join product_vending_location vs on vs.vending_location_id = vr.id
-    inner join products p on p.id = vs.product_id
+    inner join products p on p.id = vr.product_id
     inner join user m on m.id = vl.user_id
     inner join vending_machines vd on vd.id = vl.vending_machine_id
     where vl.id = p_vend_tran_id

@@ -3,6 +3,7 @@ SELECT
   u.id AS user_id,
   u.firstname AS firstname,
   u.lastname AS lastname,
+  u.email AS email,
   lpa.account_id AS account_id,
   lpa.last_payment_date AS last_payment_date,
   (CASE

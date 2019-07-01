@@ -7,5 +7,5 @@ SELECT
 FROM (`members` `m`
   LEFT JOIN `account` `a` ON (`m`.`account_id` = `a`.`account_id`))
 WHERE (`m`.`account_id` IS NOT NULL)
-GROUP BY `m`.`account_id`
+GROUP BY `m`.`account_id`, `a`.`payment_ref`
 HAVING (count(0) > 1);

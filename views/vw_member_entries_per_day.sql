@@ -10,4 +10,4 @@ SELECT
 FROM (`access_log` `al`
   LEFT JOIN `members` `m` ON (`al`.`member_id` = `m`.`member_id`))
 WHERE (`al`.`member_id` IS NOT NULL)
-GROUP BY `al`.`member_id`, CAST(`al`.`access_time` AS DATE);
+GROUP BY `al`.`member_id`, `m`.`firstname`, `m`.`surname`, CAST(`al`.`access_time` AS DATE);

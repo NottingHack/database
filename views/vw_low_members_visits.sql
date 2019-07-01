@@ -10,4 +10,4 @@ SELECT
 FROM (`vw_member_entries_per_day` `mepd`
   LEFT JOIN `members` `m` ON (`mepd`.`member_id` = `m`.`member_id`))
 WHERE (`mepd`.`member_id` IS NOT NULL)
-GROUP BY `mepd`.`member_id`;
+GROUP BY `mepd`.`member_id`, `m`.`firstname`, `m`.`surname`;

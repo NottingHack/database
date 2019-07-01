@@ -5,6 +5,7 @@ SELECT
   `m`.`member_id` AS `member_id`,
   `m`.`firstname` AS `firstname`,
   `m`.`surname` AS `surname`,
+  `m`.`email` AS `emial`,
   `lpa`.`account_id` AS `account_id`,
   `lpa`.`last_payment_date` AS `last_payment_date`,
   (CASE

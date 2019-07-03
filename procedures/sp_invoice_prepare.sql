@@ -51,12 +51,12 @@ BEGIN
       set v_invoice_to = date_add(v_invoice_from, interval 1 month);
     else -- invoice period not specified; use previous month
       -- First date of the current month to the first of the month before.
-      set v_invoice_to =  str_to_date(concat('1,', (select extract(month from now())), ',', (select extract(year from now()))),'%d,%m,%Y');
+      set v_invoice_to =  str_to_date(concat('1,', (select extract(month from UTC_TIMESTAMP())), ',', (select extract(year from UTC_TIMESTAMP()))),'%d,%m,%Y');
       set v_invoice_from = date_sub(v_invoice_to, interval 1 month);
     end if;
     
     -- Sanity check to date
-    if (v_invoice_to > now()) then
+    if (v_invoice_to > UTC_TIMESTAMP()) then
       set err = 'Error: Invoice period extends past current date!';
       leave main;
     end if;
@@ -68,7 +68,7 @@ BEGIN
       u.id,
       v_invoice_from,
       v_invoice_to,
-      now(),
+      UTC_TIMESTAMP(),
       'GENERATING',
       p.balance
     from user u

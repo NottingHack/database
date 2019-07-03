@@ -18,13 +18,13 @@ BEGIN
   
   if (entry_exists = 0) then
     insert into service_status (service_name, status, status_str, reply_time)
-    values (s_service_name, s_status, s_status_str, sysdate());
+    values (s_service_name, s_status, s_status_str, UTC_TIMESTAMP());
   else
     update service_status
     set 
       status = s_status,
       status_str = s_status_str,
-      reply_time = sysdate()
+      reply_time = UTC_TIMESTAMP()
     where
       service_name = s_service_name;
   end if;

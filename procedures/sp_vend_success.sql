@@ -100,7 +100,7 @@ BEGIN
     where id = tran_id;
 
     update vend_logs
-    set success_time = sysdate(), position = p_pos
+    set success_time = UTC_TIMESTAMP(), position = p_pos
     where vend_logs.id = p_vend_tran_id;
 
   end main;

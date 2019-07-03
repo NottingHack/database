@@ -50,7 +50,7 @@ BEGIN
     start transaction;
 
     insert into transactions (user_id, amount, transaction_type, transaction_status, transaction_desc, recorded_by, transaction_datetime)
-    values (p_member_id, p_amount, p_tran_type, p_tran_status, p_tran_desc, p_recorded_by, sysdate());
+    values (p_member_id, p_amount, p_tran_type, p_tran_status, p_tran_desc, p_recorded_by, UTC_TIMESTAMP());
 
     set p_tran_id = last_insert_id();
 

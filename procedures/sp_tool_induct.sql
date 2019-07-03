@@ -11,7 +11,7 @@ CREATE PROCEDURE sp_tool_induct
    IN  p_card_inductor   varchar( 50),
    IN  p_card_inductee   varchar( 50),
    OUT p_ret             int,
-   OUT p_msg             varchar(2000)
+   OUT p_msg           varchar(200)
 )
 SQL SECURITY DEFINER
 BEGIN
@@ -130,7 +130,7 @@ BEGIN
 
     -- Log who inducted the user
     insert into role_updates (user_id, added_role_id, created_at, update_by_user_id)
-    select l_inductee_id, r.id, sysdate(), l_inductor_id
+    select l_inductee_id, r.id, UTC_TIMESTAMP(), l_inductor_id
     from roles r
     where r. name = concat('tools.', replace(p_tool_name, ' ', ''), '.user');
 
@@ -145,7 +145,7 @@ BEGIN
     -- If this is a tool that changes, give 60minutes of time after induction
     if (l_tool_pph > 0) then
       insert into tool_usages (member_id    , tool_id, start    , status    , duration, active_time)
-                       values (inductee_id  , tool_id, sysdate(), 'COMPLETE', -(60*60), -0);  -- 60s * 60m = 1 hour credit
+                       values (inductee_id  , tool_id, UTC_TIMESTAMP(), 'COMPLETE', -(60*60), -0);  -- 60s * 60m = 1 hour credit
       set cnt = ROW_COUNT();
       if (cnt != 1) then
         set p_msg = concat('Failed: int err. Error - unexpected number of rows inserted into tool_usages: ', convert(cnt,char));

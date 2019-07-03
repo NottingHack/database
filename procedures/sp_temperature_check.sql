@@ -15,7 +15,7 @@ BEGIN
     select  concat(t.name, ' : ',  cast(format(temperature, 1) as char(5)))
     FROM temperature t
     where t.name is not null
-      and timestampdiff(minute,t.time, now()) < 20; -- ignore readings older than 20 minutes
+      and timestampdiff(minute,t.time, UTC_TIMESTAMP()) < 20; -- ignore readings older than 20 minutes
 
     
   declare continue HANDLER for not found set done = true;

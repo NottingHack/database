@@ -75,7 +75,7 @@ BEGIN
       and p.state in (10, 40); -- active, enroll
 
     -- check pin has not expired
-    if (l_expiry < sysdate()) then
+    if (l_expiry < UTC_TIMESTAMP()) then
       set p_err = "PIN expired";
       set p_unlock_text = "Access Denied";
 
@@ -144,7 +144,7 @@ BEGIN
       end if;
 
       -- Check time hasn't expired
-      if ((unix_timestamp(sysdate()) - unix_timestamp(l_access_time)) > 60) then
+      if ((unix_timestamp(UTC_TIMESTAMP()) - unix_timestamp(l_access_time)) > 60) then
         set p_err = "Time expired!";
         set p_unlock_text = concat('Unlock:',  coalesce(p_unlock_text, 'Welcome'));
         set l_access_granted = 1;
@@ -182,10 +182,10 @@ BEGIN
 
   if (l_access_granted = 1) then
     insert into access_logs (rfid_serial, pin, access_result, user_id, door_id, access_time)
-    values (null, p_pin, 20, p_member_id, p_door_id, sysdate()); -- granted
+    values (null, p_pin, 20, p_member_id, p_door_id, UTC_TIMESTAMP()); -- granted
   else
     insert into access_logs (rfid_serial, pin, access_result, user_id, denied_reason, door_id, access_time)
-    values (null, p_pin, 10, p_member_id, p_err, p_door_id, sysdate()); -- denied
+    values (null, p_pin, 10, p_member_id, p_err, p_door_id, UTC_TIMESTAMP()); -- denied
   end if;
 
 END //

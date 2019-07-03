@@ -14,13 +14,13 @@ BEGIN
   into p_known
   from addresses a
   where a.ignore_addr = 1
-    and timestampdiff(second, a.last_seen, now()) < p_time;
+    and timestampdiff(second, a.last_seen, UTC_TIMESTAMP()) < p_time;
     
   select count(*)
   into p_unknown
   from addresses a
   where a.ignore_addr = 0
-    and timestampdiff(second, a.last_seen, now()) < p_time;
+    and timestampdiff(second, a.last_seen, UTC_TIMESTAMP()) < p_time;
 
 END //
 DELIMITER ;

@@ -19,7 +19,7 @@ BEGIN
     UPDATE temperature
     SET 
       temperature = (temp_update),
-      time = now()
+      time = UTC_TIMESTAMP()
     WHERE dallas_address = address;
   else
     INSERT INTO temperature (dallas_address, temperature)

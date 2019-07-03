@@ -69,7 +69,7 @@ BEGIN
         leave read_loop;
       end if;
 
-      call sp_tool_charge(usage_id, sysdate(), p_usage_active_time, p_msg);
+      call sp_tool_charge(usage_id, UTC_TIMESTAMP(), p_usage_active_time, p_msg);
 
       set p_usage_active_time = 0;
 

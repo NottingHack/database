@@ -47,7 +47,7 @@ BEGIN
     end if;
 
     update vend_log
-    set failed_time = sysdate()
+    set failed_time = UTC_TIMESTAMP()
     where vend_log.id = vend_tran_id;
 
   end main;

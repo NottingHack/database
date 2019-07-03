@@ -35,7 +35,7 @@ BEGIN
     end if;
 
     update vend_logs
-    set cancelled_time = sysdate()
+    set cancelled_time = UTC_TIMESTAMP()
     where vend_logs.id = p_vend_tran_id;
 
   end main;

@@ -131,7 +131,7 @@ BEGIN
             where tu.user_id = p_member_id
               and tu.tool_id = l_tool_id
               and tu.status = 'COMPLETE'
-          ) < 0
+          ) >= 0
         )
       ) then
         -- No credit and no pledged time remaing.
@@ -176,7 +176,7 @@ BEGIN
   -- Add use entry
   if (p_access_result = 1) then
     insert into tool_usages (user_id    , tool_id  , start    , status       )
-                     values (p_member_id, l_tool_id, sysdate(), 'IN_PROGRESS');
+                     values (p_member_id, l_tool_id, UTC_TIMESTAMP(), 'IN_PROGRESS');
 
     -- Update tool status to in use
     update tools

@@ -64,7 +64,7 @@ BEGIN
     end if;
 
     insert into vend_logs (vending_machine_id, rfid_serial, user_id, enqueued_time)
-    values (p_vmc_id, p_rfid_serial, member_id, sysdate());
+    values (p_vmc_id, p_rfid_serial, member_id, UTC_TIMESTAMP());
 
     set p_tran_id = last_insert_id();
 

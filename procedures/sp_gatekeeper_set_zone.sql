@@ -44,12 +44,12 @@ BEGIN
     update zone_occupants
     set 
       zone_id = p_new_zone_id,
-      time_entered = sysdate()
+      time_entered = UTC_TIMESTAMP()
     where user_id = p_member_id;
 
     -- record log entry for old zone
     insert into zone_occupancy_logs (zone_id    , user_id    , time_entered    , time_exited)
-                             values (old_zone_id, p_member_id, old_time_entered, sysdate());
+                             values (old_zone_id, p_member_id, old_time_entered, UTC_TIMESTAMP());
 
   end if;
 END //

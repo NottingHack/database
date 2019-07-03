@@ -72,7 +72,7 @@ BEGIN
     if (member_id is null) then
       set p_err = 'VR05 Int. error'; -- unable to match the rfid_serial/vend_tran_id to a user. Should never happen...
       update vend_logs
-      set request_time = sysdate(), denied_reason = p_err, amount_scaled = p_amount
+      set request_time = UTC_TIMESTAMP(), denied_reason = p_err, amount_scaled = p_amount
       where vend_logs.id = p_vend_tran_id;
       leave main;
     end if;
@@ -80,7 +80,7 @@ BEGIN
     if (r_state != 10) then -- STATE_ACTIVE
       set p_err = 'VR02 Not active'; -- 'RFID serial not active';
       update vend_logs
-      set request_time = sysdate(), denied_reason = p_err, amount_scaled = p_amount
+      set request_time = UTC_TIMESTAMP(), denied_reason = p_err, amount_scaled = p_amount
       where vend_logs.id = p_vend_tran_id;
       leave main;
     end if;
@@ -95,7 +95,7 @@ BEGIN
     if (ck_exists != 1) then
       set p_err = 'VR03 int error '; -- Member ID / rfid / tran_id mismatch (BUG?)';
       update vend_logs
-      set request_time = sysdate(), denied_reason = p_err, amount_scaled = p_amount
+      set request_time = UTC_TIMESTAMP(), denied_reason = p_err, amount_scaled = p_amount
       where vend_logs.id = p_vend_tran_id;
       leave main;
     end if;
@@ -164,14 +164,14 @@ BEGIN
       end if;
 
       update vend_logs
-      set request_time = sysdate(), amount_scaled = p_amount, transaction_id = tran_id
+      set request_time = UTC_TIMESTAMP(), amount_scaled = p_amount, transaction_id = tran_id
       where id = p_vend_tran_id;
 
       set p_result = 1;
     else
       -- mark as denied
       update vend_logs
-      set request_time = sysdate(), denied_reason = p_err, amount_scaled = p_amount
+      set request_time = UTC_TIMESTAMP(), denied_reason = p_err, amount_scaled = p_amount
       where vend_logs.id = p_vend_tran_id;
       leave main;
     end if;

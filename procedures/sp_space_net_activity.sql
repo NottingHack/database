@@ -25,10 +25,10 @@ BEGIN
   select count(*) 
   into addr_count
   from addresses 
-  where (timestampdiff(SECOND, last_seen, sysdate()) < 600) 
+  where (timestampdiff(SECOND, last_seen, UTC_TIMESTAMP()) < 600) 
     and ignore_addr=0;
 
-  select timestampdiff(MINUTE, last_seen, sysdate()), timestampdiff(SECOND, last_seen, sysdate()) 
+  select timestampdiff(MINUTE, last_seen, UTC_TIMESTAMP()), timestampdiff(SECOND, last_seen, UTC_TIMESTAMP()) 
   into addr_last_time_m, addr_last_time_s
   from addresses 
   where ignore_addr=0
@@ -46,8 +46,8 @@ BEGIN
   -- See if the door is open or closed
   select
     type, 
-    timestampdiff(MINUTE, e.time, sysdate()),
-    timestampdiff(SECOND, e.time, sysdate())
+    timestampdiff(MINUTE, e.time, UTC_TIMESTAMP()),
+    timestampdiff(SECOND, e.time, UTC_TIMESTAMP())
   into 
     door_state,
     door_event_time_m,

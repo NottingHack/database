@@ -8,7 +8,7 @@ CREATE PROCEDURE sp_record_service_status_request
 SQL SECURITY DEFINER
 BEGIN
     update service_status
-    set query_time = sysdate();
+    set query_time = UTC_TIMESTAMP();
 END //
 DELIMITER ;
 

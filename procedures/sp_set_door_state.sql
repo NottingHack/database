@@ -26,7 +26,7 @@ BEGIN
     update doors
     set 
       state        = p_door_state,
-      state_change = sysdate()
+      state_change = UTC_TIMESTAMP()
     where id = p_door_id;
 
   call sp_log_event(evt, p_door_id);

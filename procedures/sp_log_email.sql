@@ -30,7 +30,7 @@ BEGIN
     set err = '';  
  
     insert into emails (member_id, email_to, email_cc, email_bcc, email_subj, email_body, email_body_alt, email_status, email_date)
-    values (member_id, email_to, email_cc, email_bcc, email_subj, email_body, email_body_alt, 'PENDING', now());
+    values (member_id, email_to, email_cc, email_bcc, email_subj, email_body, email_body_alt, 'PENDING', UTC_TIMESTAMP());
 
     set email_id = last_insert_id();
       

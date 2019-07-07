@@ -144,8 +144,8 @@ BEGIN
 
     -- If this is a tool that changes, give 60minutes of time after induction
     if (l_tool_pph > 0) then
-      insert into tool_usages (member_id    , tool_id, start    , status    , duration, active_time)
-                       values (inductee_id  , tool_id, UTC_TIMESTAMP(), 'COMPLETE', -(60*60), -0);  -- 60s * 60m = 1 hour credit
+      insert into tool_usages (user_id    , tool_id, start    , status    , duration, active_time)
+                       values (l_inductee_id  , tool_id, UTC_TIMESTAMP(), 'COMPLETE', -(60*60), -0);  -- 60s * 60m = 1 hour credit
       set cnt = ROW_COUNT();
       if (cnt != 1) then
         set p_msg = concat('Failed: int err. Error - unexpected number of rows inserted into tool_usages: ', convert(cnt,char));

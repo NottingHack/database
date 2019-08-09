@@ -1,12 +1,13 @@
-DROP TABLE IF EXISTS `permissions`;
+DROP TABLE IF EXISTS `rooms`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `permissions` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `rooms` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `floor_id` int(10) unsigned DEFAULT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `UNIQ_2DEDCC6F5E237E06` (`name`),
-  KEY `name_index` (`name`)
+  KEY `IDX_7CA11A96854679E2` (`floor_id`),
+  CONSTRAINT `FK_7CA11A96854679E2` FOREIGN KEY (`floor_id`) REFERENCES `floors` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

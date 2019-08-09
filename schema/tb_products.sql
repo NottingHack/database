@@ -6,7 +6,7 @@ CREATE TABLE `products` (
   `price` int(11) NOT NULL,
   `barcode` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `available` int(11) DEFAULT NULL,
-  `short_description` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `short_description` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `long_description` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_B3BA5A5A97AE0266` (`barcode`)

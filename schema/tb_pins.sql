@@ -10,7 +10,7 @@ CREATE TABLE `pins` (
   `state` int(11) NOT NULL DEFAULT 10,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_3F0FE980B5852DF3` (`pin`),
-  KEY `IDX_3F0FE980A76ED395` (`user_id`),
+  UNIQUE KEY `UNIQ_3F0FE980A76ED395` (`user_id`),
   CONSTRAINT `FK_3F0FE980A76ED395` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;

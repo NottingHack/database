@@ -13,6 +13,6 @@ CREATE TABLE `vending_locations` (
   KEY `IDX_FB51EA394584665A` (`product_id`),
   CONSTRAINT `FK_FB51EA394584665A` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`),
   CONSTRAINT `FK_FB51EA3982EA3E1C` FOREIGN KEY (`vending_machine_id`) REFERENCES `vending_machines` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=169 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

@@ -9,6 +9,7 @@ CREATE TABLE `emails` (
   `body` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `sent_at` datetime NOT NULL,
   `full_string` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `message_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_4C81E852D60322AC` (`role_id`),
   CONSTRAINT `FK_4C81E852D60322AC` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`)

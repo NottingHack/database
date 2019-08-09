@@ -10,6 +10,6 @@ CREATE TABLE `vimbadmin_tokens` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_8DCFB55B4E645A7E` (`key`),
   KEY `key_index` (`key`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

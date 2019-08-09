@@ -3,7 +3,7 @@ DROP TABLE IF EXISTS `zone_occupancy_logs`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `zone_occupancy_logs` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `zone_id` int(10) unsigned DEFAULT NULL,
+  `zone_id` int(11) DEFAULT NULL,
   `user_id` int(10) unsigned DEFAULT NULL,
   `time_exited` datetime DEFAULT NULL,
   `time_entered` datetime DEFAULT NULL,

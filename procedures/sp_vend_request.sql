@@ -139,7 +139,7 @@ BEGIN
       end if;
     else
       -- payment
-      set l_transaction_type = 'CASHPAYMENT'
+      set l_transaction_type = 'CASHPAYMENT';
       if (permission_payment = 1) then
         set vend_permitted = 1;
       elseif (permission_debt_only = 1) then

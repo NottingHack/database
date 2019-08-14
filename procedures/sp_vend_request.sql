@@ -3,9 +3,9 @@ drop procedure if exists sp_vend_request;
 /*
  * Respond to VREQ messages from vending machine. Check rfid & tran id match up with an entry in vend_log.
  * Check the members.balance+credit_limit covers the requested amout.
- * If allowed (p_result=1), also create a pending entry in the transactions table (as the 
+ * If allowed (p_result=1), also create a pending entry in the transactions table (as the
  * vending machine should start vending on receipt of a successful p_result).
- * 
+ *
  * Note on p_err: This should be <= 16 characters as it sent to the LCD on failure
  */
 
@@ -31,6 +31,7 @@ BEGIN
   declare permission_payment     int;
   declare permission_debt_only   int;
   declare vend_permitted int;
+  declare l_transaction_type varchar(15);
 
   set p_result = 0;
   set p_err = '';
@@ -47,7 +48,7 @@ BEGIN
       and v.transaction_id is null;
 
     if (ck_exists = 0) then
-      set p_err = 'VR01 failed'; -- unable to find matching entry in vend_log (BUG?) 
+      set p_err = 'VR01 failed'; -- unable to find matching entry in vend_log (BUG?)
       leave main;
     end if;
 
@@ -123,6 +124,7 @@ BEGIN
     set p_err = 'Unknown.';
     if (p_amount > 0) then
       -- purchase
+      set l_transaction_type = 'VEND';
       if ((permission_purchase = 0) and (permission_credit_only = 0)) then
         -- No relevant permission of any kind. Should be unusual?
         set vend_permitted = 0;
@@ -137,6 +139,7 @@ BEGIN
       end if;
     else
       -- payment
+      set l_transaction_type = 'CASHPAYMENT'
       if (permission_payment = 1) then
         set vend_permitted = 1;
       elseif (permission_debt_only = 1) then
@@ -157,7 +160,7 @@ BEGIN
     if (vend_permitted = 1) then
       -- create in-progress transaction
       set tran_id = 0;
-      call sp_transaction_log (member_id, (-1*p_amount), 'VEND', 'PENDING', 'Vend in progress', null, tran_id, p_err);
+      call sp_transaction_log (member_id, (-1*p_amount), l_transaction_type, 'PENDING', 'Vend in progress', null, tran_id, p_err);
 
       if (p_err != '') then
         leave main;

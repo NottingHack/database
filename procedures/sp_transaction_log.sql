@@ -9,7 +9,7 @@ CREATE PROCEDURE sp_transaction_log
 (
    IN  p_member_id    int,
    IN  p_amount       int,
-   IN  p_tran_type    varchar(6),
+   IN  p_tran_type    varchar(15),
    IN  p_tran_status  varchar(8),
    IN  p_tran_desc    varchar(512),
    IN  p_recorded_by  int,

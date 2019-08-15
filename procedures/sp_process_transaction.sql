@@ -25,7 +25,7 @@ BEGIN
 
   declare v_member_id         int;
   declare v_amount            int;
-  declare v_transaction_type  varchar(6);
+  declare v_transaction_type  varchar(15);
   declare v_unalloc_payments  int;
   declare v_already_alloc     int;
   declare v_unalloc_purchase  int;

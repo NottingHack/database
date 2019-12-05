@@ -46,6 +46,11 @@ BEGIN
       leave main;
     end if;
 
+    -- Update the last used time set against the card
+    update rfid_tags
+    set last_used = UTC_TIMESTAMP()
+    where rfid_tags.rfid_serial = p_rfid_serial;
+
     select
       u.id,
       r.state

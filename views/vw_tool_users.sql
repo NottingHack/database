@@ -12,6 +12,7 @@ SELECT
     FROM tool_usages tu
     WHERE tu.tool_id = tool_id AND tu.user_id = u.id) AS session_duration_total_hours,
   CONCAT_WS(' ', u.firstname, u.lastname) AS user_name,
+  u.email AS email,
   r.display_name AS member_status
 FROM  roles rt
   LEFT JOIN role_user rtu ON (rt.id = rtu.role_id)

@@ -1,6 +1,7 @@
 CREATE VIEW `vw_access_log` AS
 SELECT
   al.access_time AS access_time,
+  u.id as user_id,
   CONCAT_WS(' ', u.firstname, u.lastname) AS member_name,
   d.description AS door,
   side_a_zone.description AS zone_a,

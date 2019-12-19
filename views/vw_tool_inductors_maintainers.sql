@@ -3,7 +3,8 @@ SELECT
   REGEXP_SUBSTR(rt.display_name, '(?<=Tool: ).+(?= )') AS tool_name,
   SUBSTRING_INDEX(rt.display_name," ",-1) AS access_level,
   CONCAT_WS(' ', u.firstname, u.lastname) AS user_name,
-  r.display_name AS member_status
+  r.display_name AS member_status,
+  u.email AS email
 FROM roles rt
   LEFT JOIN role_user rtu ON (rt.id = rtu.role_id)
   LEFT JOIN user u ON (rtu.user_id = u.id)

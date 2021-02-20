@@ -1,11 +1,9 @@
-DROP TABLE IF EXISTS `buildings`;
+DROP TABLE IF EXISTS `stripe_events`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `buildings` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `access_state` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'CLOSED',
-  `self_book_max_occupancy` int(10) unsigned NOT NULL DEFAULT 1,
+CREATE TABLE `stripe_events` (
+  `id` varchar(140) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `handled_at` datetime DEFAULT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`)

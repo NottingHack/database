@@ -17,6 +17,8 @@ CREATE TABLE `profile` (
   `updated_at` datetime NOT NULL,
   `date_of_birth` date DEFAULT NULL,
   `balance` int(11) NOT NULL DEFAULT 0,
+  `voting_preference` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'AUTOMATIC',
+  `voting_preference_stated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`user_id`),
   CONSTRAINT `FK_8157AA0FA76ED395` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

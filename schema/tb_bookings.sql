@@ -7,7 +7,7 @@ CREATE TABLE `bookings` (
   `tool_id` int(10) unsigned DEFAULT NULL,
   `start` datetime NOT NULL,
   `end` datetime NOT NULL,
-  `type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `type` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`),

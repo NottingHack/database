@@ -7,7 +7,7 @@ CREATE TABLE `membership_status_notifications` (
   `account_id` int(10) unsigned DEFAULT NULL,
   `time_issued` datetime NOT NULL,
   `time_cleared` datetime DEFAULT NULL,
-  `cleared_reason` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `cleared_reason` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_3ACFFDCAA76ED395` (`user_id`),
   KEY `IDX_3ACFFDCA9B6B5FBA` (`account_id`),

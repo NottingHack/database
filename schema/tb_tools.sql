@@ -4,6 +4,7 @@ DROP TABLE IF EXISTS `tools`;
 CREATE TABLE `tools` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `display_name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `status` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
   `restrictions` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
   `status_text` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,

@@ -7,7 +7,7 @@ CREATE TABLE `doors` (
   `side_b_zone_id` int(11) DEFAULT NULL,
   `description` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `short_name` varchar(16) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `state` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `state` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
   `state_change` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_5E5B762A49451B7F` (`side_a_zone_id`),

@@ -8,6 +8,7 @@ INSERT INTO `meta` (`key`, `value`, `deleted_at`, `created_at`, `updated_at`) VA
   ('audit_revoke_interval', 'P2M', NULL, '2019-01-13 14:02:31', '2019-01-13 14:02:31'),
   ('audit_warn_interval', 'P1M14D', NULL, '2019-01-13 14:02:31', '2019-01-13 14:02:31'),
   ('google_group_html', 'https://groups.google.com/group/nottinghack?hl=en', NULL, '2019-01-13 14:02:31', '2019-01-13 14:02:31'),
+  ('induction_request_html', 'https://goo.gl/Jl59IM', NULL, '2021-01-25 20:36:42', '2021-01-25 20:36:42'),
   ('label_printer_ip', 'localhost', NULL, '2019-01-13 14:02:31', '2019-01-13 14:02:31'),
   ('member_box_cost', '-500', NULL, '2019-01-13 14:02:31', '2019-01-13 14:02:31'),
   ('member_box_individual_limit', '3', NULL, '2019-01-13 14:02:31', '2019-01-13 14:02:31'),
@@ -17,5 +18,11 @@ INSERT INTO `meta` (`key`, `value`, `deleted_at`, `created_at`, `updated_at`) VA
   ('members_guide_pdf', 'https://readthedocs.org/projects/nottingham-hackspace-members-guide/downloads/pdf/latest/', NULL, '2019-01-13 14:02:31', '2019-01-13 14:02:31'),
   ('purge_cutoff_interval', 'P6M', NULL, '2019-01-13 14:02:31', '2019-01-13 14:02:31'),
   ('rules_html', 'https://rules.nottinghack.org.uk', NULL, '2019-01-13 14:02:31', '2019-01-13 14:02:31'),
-  ('so_accountName', 'Nottingham Hackspace Ltd', NULL, '2019-01-13 14:02:31', '2019-01-13 14:02:31'),
-  ('wiki_html', 'https://wiki.nottinghack.org.uk', NULL, '2019-01-13 14:02:31', '2019-01-13 14:02:31');
+  ('self_book_info_text', 'Based on current government guidelines your can only bring guest from you household into the space!', NULL, '2021-01-25 20:36:43', '2021-01-25 20:36:43'),
+  ('self_book_max_concurrent_per_user', '1', NULL, '2021-01-25 20:36:43', '2021-01-25 20:36:43'),
+  ('self_book_max_guests_per_user', '1', NULL, '2021-01-25 20:36:43', '2021-01-25 20:36:43'),
+  ('self_book_max_length', '180', NULL, '2021-01-25 20:36:43', '2021-01-25 20:36:43'),
+  ('self_book_min_period_between_bookings', '720', NULL, '2021-01-25 20:36:43', '2021-01-25 20:36:43'),
+  ('so_bank_id', '2', NULL, '2021-01-25 20:36:41', '2021-01-25 20:36:41'),
+  ('wiki_html', 'https://wiki.nottinghack.org.uk', NULL, '2019-01-13 14:02:31', '2019-01-13 14:02:31'),
+  ('zone_occupant_reset_interval', 'P1D', NULL, '2021-01-25 20:36:42', '2021-01-25 20:36:42');

@@ -9,6 +9,7 @@ SELECT
    'Any' AS member_status
 FROM member_boxes
 WHERE member_boxes.state = 10
+GROUP BY member_boxes.state, member_status
 
 UNION ALL
 
@@ -21,6 +22,7 @@ SELECT
    'Any' AS member_status
 FROM member_boxes
 WHERE member_boxes.state = 20
+GROUP BY member_boxes.state, member_status
 
 UNION ALL
 
@@ -33,6 +35,7 @@ SELECT
    'Any' AS member_status
 FROM member_boxes
 WHERE member_boxes.state = 30
+GROUP BY member_boxes.state, member_status
 
 UNION ALL
 
@@ -49,6 +52,7 @@ FROM member_boxes
   INNER JOIN roles r ON (r.id = ru.role_id)
 WHERE member_boxes.state = 10
   AND r.name LIKE 'member.current'
+GROUP BY member_boxes.state, member_status
 
 UNION ALL
 
@@ -65,6 +69,7 @@ FROM member_boxes
   INNER JOIN roles r ON (r.id = ru.role_id)
 WHERE member_boxes.state = 10
   AND r.name LIKE 'member.ex'
+GROUP BY member_boxes.state, member_status
 
 UNION ALL
 

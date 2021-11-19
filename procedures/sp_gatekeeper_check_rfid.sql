@@ -62,8 +62,8 @@ BEGIN
 
   -- add entry to access log
   if (p_access_granted = 1) then
-    insert into access_logs (rfid_serial, pin, access_result, user_id, door_id, access_time)
-    values (p_rfid_serial, null, 20, p_member_id, p_door_id, UTC_TIMESTAMP()); -- granted
+    insert into access_logs (rfid_serial, pin, access_result, user_id, door_id, access_time, entered_zone_id)
+    values (p_rfid_serial, null, 20, p_member_id, p_door_id, UTC_TIMESTAMP(), p_new_zone_id); -- granted
   else
     insert into access_logs (rfid_serial, pin, access_result, user_id, denied_reason, door_id, access_time)
     values (p_rfid_serial, null, 10, p_member_id, p_err, p_door_id, UTC_TIMESTAMP()); -- denied

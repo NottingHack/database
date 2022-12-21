@@ -10,7 +10,7 @@ SELECT
     WHEN u.account_id IN (SELECT vw_joint_accounts.account_id FROM vw_joint_accounts) THEN 'Yes' ELSE 'No'
     END) AS joint_account,
   (CASE
-    WHEN u.account_id IN (SELECT vw_joint_accounts.account_id FROM vw_joint_accounts) THEN TRUNCATE(lpa.amount_pounds / 2, 2) ELSE TRUNCATE(lpa.amount_pounds, 2)
+    WHEN u.account_id IN (SELECT vw_joint_accounts.account_id FROM vw_joint_accounts) THEN TRUNCATE(lpa.amount_pounds /  (SELECT vw_joint_accounts.count FROM vw_joint_accounts WHERE vw_joint_accounts.account_id = u.account_id), 2) ELSE TRUNCATE(lpa.amount_pounds, 2)
     END) AS adjustedAmount,
   IFNULL(lmv.visits1M, 0) AS visits1M,
   IFNULL(lmv.visits3M, 0) AS visits3M,

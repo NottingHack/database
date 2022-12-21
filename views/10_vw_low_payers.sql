@@ -10,12 +10,12 @@ SELECT
     WHEN u.account_id IN (SELECT vw_joint_accounts.account_id FROM vw_joint_accounts) THEN 'Yes' ELSE 'No'
     END) AS joint_account,
   (CASE
-    WHEN u.account_id IN (SELECT vw_joint_accounts.account_id FROM vw_joint_accounts) THEN TRUNCATE(lpa.amount / 2, 2) ELSE TRUNCATE(lpa.amount, 2)
+    WHEN u.account_id IN (SELECT vw_joint_accounts.account_id FROM vw_joint_accounts) THEN TRUNCATE(lpa.amount_pounds / 2, 2) ELSE TRUNCATE(lpa.amount_pounds, 2)
     END) AS adjustedAmount,
   IFNULL(lmv.visits1M, 0) AS visits1M,
   IFNULL(lmv.visits3M, 0) AS visits3M,
-  IFNULL(TRUNCATE(lpa.amount / lmv.visits1M, 2), 0) AS `Payment/Visit 1M`,
-  IFNULL(TRUNCATE((lpa.amount * 3) / lmv.visits3M, 2), 0) AS `Payment/Visit 3M`
+  IFNULL(TRUNCATE(lpa.amount_pounds / lmv.visits1M, 2), 0) AS `Payment/Visit 1M`,
+  IFNULL(TRUNCATE((lpa.amount_pounds * 3) / lmv.visits3M, 2), 0) AS `Payment/Visit 3M`
 FROM ((user u
   LEFT JOIN vw_low_last_payment_amount lpa ON (u.account_id = lpa.account_id))
   LEFT JOIN vw_low_members_visits lmv ON (u.id = lmv.user_id))

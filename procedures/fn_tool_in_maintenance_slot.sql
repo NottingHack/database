@@ -22,8 +22,8 @@ BEGIN
   select count(*)
   into c
   from bookings b
-  where b.start >= UTC_TIMESTAMP()
-    and b.end <= UTC_TIMESTAMP()
+  where b.start <= UTC_TIMESTAMP()
+    and b.end >= UTC_TIMESTAMP()
     and tool_id = p_tools_id
     and b.type = 'MAINTENANCE';
 

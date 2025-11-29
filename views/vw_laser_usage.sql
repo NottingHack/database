@@ -17,7 +17,7 @@ SELECT
       AND MONTH(ru.created_at)=MONTH(tu.start)
   ) AS members_inducted
 FROM tool_usages tu
-WHERE tu.tool_id IN (1, 14)
+WHERE tu.tool_id IN (1, 14, 36)
   AND tu.duration > 0
 GROUP BY YEAR(tu.start), MONTHNAME(tu.start)
 ORDER BY YEAR(tu.start) DESC, MONTH(tu.start) DESC;

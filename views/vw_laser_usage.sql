@@ -12,7 +12,7 @@ SELECT
     SELECT COUNT(*)
     FROM role_updates ru
     INNER JOIN roles r ON r.id = ru.added_role_id
-    WHERE r.name = 'tools.laser.user'
+    WHERE (r.name = 'tools.laser.user' OR r.name = 'tools.boxfordlaser.user')
       AND YEAR(ru.created_at)=YEAR(tu.start)
       AND MONTH(ru.created_at)=MONTH(tu.start)
   ) AS members_inducted

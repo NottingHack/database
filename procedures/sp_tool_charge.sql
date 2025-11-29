@@ -20,6 +20,7 @@ BEGIN
   declare full_rate int;
   declare amount int;
   declare tran_desc varchar(512);
+  declare tran_type varchar(255);
   declare tool_name varchar(20);
   declare tool_status varchar(20);
   declare tran_id int;
@@ -53,7 +54,8 @@ BEGIN
     tu.status,
     ifnull(t.pph, 0),
     t.name,
-    t.status
+    t.status,
+    ifnull(t.transaction_type_override, 'TOOL')
   into
     member_id,
     tool_id,
@@ -61,7 +63,8 @@ BEGIN
     usage_status,
     tool_pph,
     tool_name,
-    tool_status
+    tool_status,
+    tran_type
   from tool_usages tu
   inner join tools t on tu.tool_id = t.id
   where tu.id = p_usage_id;
@@ -108,7 +111,7 @@ BEGIN
       set amount = 0;
       set tran_desc = concat('[', sec_to_time(new_usage_duration), '] of [', tool_name, '] use @ £0.00 p/h (maintenance)');
 
-      call sp_transaction_log(member_id, amount, 'TOOL', 'COMPLETE', tran_desc, null, tran_id, p_msg);
+      call sp_transaction_log(member_id, amount, tran_type, 'COMPLETE', tran_desc, null, tran_id, p_msg);
       if (length(p_msg) > 0) then
         set err = 1;
         leave main;
@@ -123,7 +126,7 @@ BEGIN
   where tu.user_id = member_id
     and tu.tool_id = tool_id
     and tu.status = 'COMPLETE';
-  
+
   -- calc zero-rate charges (i.e. take into account any unspent pledged time)
   if (acc_usage_duration <= 0) then
     set zero_rate = new_usage_duration; -- tool_usage still has a -ve usage time, so no charges apply yet
@@ -144,7 +147,7 @@ BEGIN
     set amount = 0;
     set tran_desc = concat('[', sec_to_time(zero_rate), '] of [', tool_name, '] use @ £', format((0)/100, 2), ' p/h');
 
-    call sp_transaction_log(member_id, amount, 'TOOL', 'COMPLETE', tran_desc, null, tran_id, p_msg);
+    call sp_transaction_log(member_id, amount, tran_type, 'COMPLETE', tran_desc, null, tran_id, p_msg);
     if (length(p_msg) > 0) then
       set err = 1;
       leave main;
@@ -156,7 +159,7 @@ BEGIN
     set amount = -1*(full_rate * (tool_pph/3600));
     set tran_desc = concat('[', sec_to_time(full_rate), '] of [', tool_name, '] use @ £', format((tool_pph)/100, 2), ' p/h');
 
-    call sp_transaction_log(member_id, amount, 'TOOL', 'COMPLETE', tran_desc, null, tran_id, p_msg);
+    call sp_transaction_log(member_id, amount, tran_type, 'COMPLETE', tran_desc, null, tran_id, p_msg);
     if (length(p_msg) > 0) then
       set err = 1;
       leave main;

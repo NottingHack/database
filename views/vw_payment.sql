@@ -28,7 +28,13 @@ SELECT
       IFNULL(SUM(pp.amount), 0)
     FROM (purchase_payment pp
       JOIN transactions t2 ON (t2.id = pp.transaction_id_purchase))
-    WHERE ((pp.transaction_id_payment = t.id) AND (t2.transaction_type NOT IN ('TOOL', 'VEND', 'BOX')))
+    WHERE ((pp.transaction_id_payment = t.id) AND (t2.transaction_type = 'HEAT'))
+  ) AS for_heat,
+  (SELECT
+      IFNULL(SUM(pp.amount), 0)
+    FROM (purchase_payment pp
+      JOIN transactions t2 ON (t2.id = pp.transaction_id_purchase))
+    WHERE ((pp.transaction_id_payment = t.id) AND (t2.transaction_type NOT IN ('TOOL', 'VEND', 'BOX', 'HEAT')))
   ) AS for_other
 FROM (transactions t
   JOIN user u ON (u.id = t.user_id))
